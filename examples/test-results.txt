@@ -10,12 +10,15 @@ test_unknown_provider_failure_is_bounded_and_redacted (test_agent.AgentTests.tes
 test_cli_artifacts_and_repeat (test_cli.CliTests.test_cli_artifacts_and_repeat) ... ok
 test_config_error (test_cli.CliTests.test_config_error) ... ok
 test_incomplete_exit_code (test_cli.CliTests.test_incomplete_exit_code) ... ok
+test_invalid_key_rejects_entire_file (test_config.ConfigTests.test_invalid_key_rejects_entire_file) ... ok
+test_literal_values_and_shell_precedence (test_config.ConfigTests.test_literal_values_and_shell_precedence) ... ok
 test_deadline_requires_future_and_timezone (test_domain.InputTests.test_deadline_requires_future_and_timezone) ... ok
 test_equivalent_deadlines_have_same_fingerprint (test_domain.InputTests.test_equivalent_deadlines_have_same_fingerprint) ... ok
 test_invalid_budget (test_domain.InputTests.test_invalid_budget) ... ok
 test_invalid_root_and_blank_theme (test_domain.InputTests.test_invalid_root_and_blank_theme) ... ok
 test_missing_constraints (test_domain.InputTests.test_missing_constraints) ... ok
 test_zero_budget_is_valid (test_domain.InputTests.test_zero_budget_is_valid) ... ok
+test_deepseek_options_and_truncation (test_models.ModelTests.test_deepseek_options_and_truncation) ... ok
 test_http_error_does_not_expose_body_or_key (test_models.ModelTests.test_http_error_does_not_expose_body_or_key) ... ok
 test_malformed_response (test_models.ModelTests.test_malformed_response) ... ok
 test_missing_config (test_models.ModelTests.test_missing_config) ... ok
@@ -28,6 +31,6 @@ test_save_rechecks_time (test_tools_storage.ToolsTests.test_save_rechecks_time) 
 test_stale_revision_and_dependency (test_tools_storage.ToolsTests.test_stale_revision_and_dependency) ... ok
 
 ----------------------------------------------------------------------
-Ran 28 tests in 0.728s
+Ran 31 tests in 0.725s
 
 OK

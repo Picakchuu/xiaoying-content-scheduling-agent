@@ -87,13 +87,27 @@ class RealModel:
         self.timeout = float(os.environ.get("MODEL_TIMEOUT", "60"))
         if not 0 < self.timeout <= 180:
             raise ValueError("MODEL_TIMEOUT must be in (0, 180]")
+        self.max_tokens = int(os.environ.get("MODEL_MAX_TOKENS", "3000"))
+        if not 1 <= self.max_tokens <= 32000:
+            raise ValueError("MODEL_MAX_TOKENS must be in [1, 32000]")
+        self.thinking = os.environ.get("MODEL_THINKING", "")
+        if self.thinking not in ('', 'enabled', 'disabled'):
+            raise ValueError('invalid MODEL_THINKING')
+        self.json_output = os.environ.get('MODEL_JSON_OUTPUT', 'false').lower()
+        if self.json_output not in ('true', 'false'):
+            raise ValueError('MODEL_JSON_OUTPUT must be true or false')
 
     def decide(self, ctx):
         from datetime import datetime
-        payload = json.dumps({"model": self.name, "messages": [
+        body = {"model": self.name, "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": json.dumps(ctx, ensure_ascii=False, default=lambda x: x.isoformat() if isinstance(x, datetime) else str(x))}
-        ], "temperature": 0.1, "max_tokens": 1200}).encode()
+        ], "temperature": 0.1, "max_tokens": self.max_tokens}
+        if self.thinking:
+            body['thinking'] = {'type': self.thinking}
+        if self.json_output == 'true':
+            body['response_format'] = {'type': 'json_object'}
+        payload = json.dumps(body).encode()
         req = Request(self.url, data=payload, headers={"Authorization": "Bearer " + self.key, "Content-Type": "application/json"})
         try:
             with urlopen(req, timeout=self.timeout) as response:
@@ -101,6 +115,8 @@ class RealModel:
                 if len(raw) > 200000:
                     raise ModelError("model response exceeds size limit")
                 data = json.loads(raw)
+            if data['choices'][0].get('finish_reason') == 'length':
+                raise ModelError('model output truncated; increase MODEL_MAX_TOKENS')
             content = data["choices"][0]["message"]["content"]
             if not isinstance(content, str) or not content.strip():
                 raise ModelError("model returned empty content")

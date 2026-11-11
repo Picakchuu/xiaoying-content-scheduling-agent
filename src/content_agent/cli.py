@@ -6,6 +6,7 @@ from pathlib import Path
 import sqlite3
 import sys
 from .agent import Agent
+from .config import load_env
 from .models import MockModel, RealModel
 from .storage import Store
 from .tools import Tools, DEFAULT_CATALOG, TOOL_NAMES
@@ -33,6 +34,7 @@ def main(argv=None):
     parser.add_argument('--input', required=True, help='UTF-8 JSON request file')
     parser.add_argument('--db', default='.tmp/plans.db')
     parser.add_argument('--model', choices=('mock', 'real'), default='mock')
+    parser.add_argument('--env-file', help='explicit local model configuration; shell env takes precedence')
     parser.add_argument('--catalog', default=str(DEFAULT_CATALOG))
     parser.add_argument('--max-steps', type=int, default=16)
     parser.add_argument('--max-tool-calls', type=int, default=12)
@@ -42,6 +44,8 @@ def main(argv=None):
     parser.add_argument('--trace')
     args = parser.parse_args(argv)
     try:
+        if args.env_file:
+            load_env(args.env_file)
         fixed = datetime.fromisoformat(args.now) if args.now else None
         if fixed and (args.model != 'mock' or fixed.tzinfo is None):
             raise ValueError('--now requires mock mode and a timezone-aware time')

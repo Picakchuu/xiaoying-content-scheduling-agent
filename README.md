@@ -4,7 +4,7 @@
 
 帮助运营人员从主题、预算和截止时间生成并保存内容活动方案。采用 Python 原生单 Agent，提供 CLI、四个本地业务工具、SQLite 幂等存储、模型动作校验和执行上限。
 
-**当前验证状态：28 项测试、14 组离线实际运行记录通过。真实模型适配器已实现，但尚未进行真实模型调用；离线 Mock 仅证明流程，不证明真实模型决策效果。**
+**当前验证状态：31 项测试、14 组离线实际运行记录通过。真实模型适配器已实现，但尚未进行真实模型调用；离线 Mock 仅证明流程，不证明真实模型决策效果。**
 
 ## 环境与安装
 
@@ -52,11 +52,11 @@ python -m content_agent --input examples/tool_failure/input.json --now "2026-11-
 
 ## 真实模型接入
 
-使用支持 chat-completions 消息格式的服务，环境变量模板见 `.env.example`。程序不自动加载 `.env`，请在当前终端设置环境变量：
+使用支持 chat-completions 消息格式的服务，环境变量模板见 `.env.example`。可在当前终端设置环境变量，或使用 `--env-file .env` 显式读取本地配置（终端环境变量优先）：
 
 ```powershell
-$env:MODEL_URL = "https://你的服务地址/完整的chat/completions路径"
-$env:MODEL_NAME = "服务端模型ID"
+$env:MODEL_URL = "https://api.deepseek.com/chat/completions"
+$env:MODEL_NAME = "deepseek-v4-pro"
 # 在本地终端设置 MODEL_API_KEY；不要提交密钥。
 python -m content_agent --model real --input .tmp/real-input.json --db .tmp/real.db --output .tmp/real-output.json --trace .tmp/real-trace.jsonl
 ```
@@ -73,3 +73,17 @@ python -m content_agent --model real --input .tmp/real-input.json --db .tmp/real
 重新生成全部离线证据：`python scripts/make_examples.py`。使用独立临时数据库，写入真实执行输出并运行测试；不会生成真实模型证据。各目录 config.json 标明故障、上限与固定时钟。重复与冲突用例依赖 normal 的相同数据库，由脚本按顺序执行。
 
 本项目未扩展 UI、HTTP API、多 Agent 或真实发布。历史 `PROJECT_PLAN.md` 是素材审核/发布排期方向的早期文件，不是当前实现规格，以 docs/01-requirements.md 为准。
+
+
+## DeepSeek V4 Pro 验证入口
+
+当前选择模型为 `deepseek-v4-pro`，官方端点为 `https://api.deepseek.com/chat/completions`。复制 `.env.example` 为本地 `.env`（如果已有配置请保留），只在本地填写密钥。模板设置 `MODEL_THINKING=disabled`、`MODEL_JSON_OUTPUT=true` 与 `MODEL_MAX_TOKENS=3000`；模型根据观察选择动作不要求开启思考模式，且程序不保存 reasoning_content。
+
+```powershell
+$env:PYTHONPATH = "src"
+python scripts/evaluate_real.py --env-file .env
+```
+
+该命令会实际调用模型服务，运行正常、预算约束、工具失败三个场景，证据写入 `examples/real/<运行标识>/`。不要把失败记录改写为成功；模型可能预先选择廉价方案，仍需人工核对是否已覆盖两条观察后调整路径。当前尚未执行真实验证。
+
+单独调用可使用 `python -m content_agent --model real --env-file .env --input .tmp/real-input.json --db .tmp/real.db`。DeepSeek参数依据：[官方Chat Completions文档](https://api-docs.deepseek.com/api/create-chat-completion/)。

@@ -33,3 +33,15 @@ class ModelTests(unittest.TestCase):
         with patch.dict(os.environ, {}, clear=True):
             with self.assertRaises(ValueError):
                 RealModel()
+
+    def test_deepseek_options_and_truncation(self):
+        env = {'MODEL_URL':'https://api.deepseek.com/chat/completions', 'MODEL_API_KEY':'test-only',
+               'MODEL_NAME':'deepseek-v4-pro', 'MODEL_THINKING':'disabled', 'MODEL_JSON_OUTPUT':'true', 'MODEL_MAX_TOKENS':'3000'}
+        data = {'choices':[{'message':{'content':'{}'}, 'finish_reason':'length'}]}
+        with patch.dict(os.environ, env, clear=True), patch('content_agent.models.urlopen', return_value=io.BytesIO(json.dumps(data).encode())) as call:
+            with self.assertRaisesRegex(ModelError, 'truncated'):
+                RealModel().decide({})
+        body = json.loads(call.call_args.args[0].data)
+        self.assertEqual(body['thinking'], {'type':'disabled'})
+        self.assertEqual(body['response_format'], {'type':'json_object'})
+        self.assertEqual(body['max_tokens'], 3000)
