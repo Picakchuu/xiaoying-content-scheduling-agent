@@ -93,7 +93,7 @@ python -m content_agent --model real --input .tmp/real-input.json --db .tmp/real
 - [AI使用](docs/04-ai-usage.md)、[复盘](docs/05-retrospective.md)
 - [验收索引](examples/ACCEPTANCE.md)、[测试结果](examples/test-results.txt)
 
-方案已保存不代表内容已制作或发布。脚本和分镜采用本地模板。实际投入约2小时，以AI辅助编码为主；个人承担主要需求/设计决策、代码审核修改和CLI试用，详见AI使用说明。
+方案已保存不代表内容已制作或发布。脚本和分镜采用本地模板。实际投入约2个半小时，以AI辅助编码为主；个人承担主要需求/设计决策、代码审核修改和CLI试用，详见AI使用说明。
 
 
 ## 数据库
@@ -113,3 +113,16 @@ python scripts/inspect_db.py --db .tmp/plans.db
 [一份完整验收报告](examples/acceptance-report.md)集中列出输入、实际输出摘要和逐步Trace；原始文件通过链接保留。离线重建后运行 `python scripts/build_acceptance_report.py` 更新报告。
 
 真实超预算后重规划已验证：[12→8实际记录](examples/real-replanning/a5b646045987/review.json)。复现命令为 `python scripts/evaluate_replanning.py`，会真实调用模型；场景是参考价与最终报价不同，不预设模型动作。
+
+
+## 手动续跑
+
+当前对话任务未完成时输入 `/resume`。跨进程可使用原JSON输入与原数据库：
+
+```powershell
+python -m content_agent --model real --env-file .env --input 原输入.json --db 原数据库.db --resume
+```
+
+续跑保留成功结果、失败历史和已花费用，由原模型重新选择下一步；成功任务仅重放。每个请求最多3次手动续跑，累计工具调用上限不重置。原输入、模型和模式必须一致，过期或预算不足不会因续跑被绕过。相同故障注入的已使用标记不会清零。
+
+离线验证：`python scripts/evaluate_resume.py`，证据见examples/resume。投入时间约2个半小时。

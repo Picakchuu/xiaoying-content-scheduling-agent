@@ -306,6 +306,40 @@
 | 3 | estimate_cost {} | {"total_cost": 7, "budget_gap": 0, "feasible": true} | save_plan | 核对当前方案的费用和时间 |
 | 4 | save_plan {} | {"plan_id": "plan-a2bb4644ad204148"} | end | 估算满足预算与截止时间，保存方案 |
 
+## resume
+
+输入：
+```json
+{
+  "request_id": "resume-demo",
+  "theme": "新品活动",
+  "budget": 20,
+  "deadline": "2026-11-12T18:00:00+08:00"
+}
+```
+实际输出摘要：
+```json
+{
+  "mode": "mock",
+  "model": "offline-mock",
+  "status": "completed",
+  "reason": null,
+  "total_cost": 12,
+  "actual_tool_cost": 1,
+  "saved_plan_id": "plan-77a7675c365cbecf",
+  "replayed": false
+}
+```
+[完整输出](resume/output.json) · [原始Trace](resume/trace.jsonl)
+
+| 步骤 | 动作与参数 | 实际观察摘要 | 后续动作 | 简要依据 |
+|---|---|---|---|---|
+| 1 | search_materials {"query": "新品活动"} | {"ok": true, "error": null, "summary": "{\"materials\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品"} | generate_script | 先查找可用素材和制作方案 |
+| 2 | generate_script {"variant": "premium", "material_ids": ["brand"]} | {"variant": "premium"} | estimate_cost | 素材部分成功时缩小方案，否则先尝试精剪方案 |
+| 3 | estimate_cost {} | {"total_cost": 12, "budget_gap": 0, "feasible": true} | save_plan | 核对当前方案的费用和时间 |
+| 4 | save_plan {} | {"ok": false, "error": "injected_failure", "summary": "one-time synthetic failure before execution; no charge"} | save_plan | 估算满足预算与截止时间，保存方案 |
+| 5 | save_plan {} | {"plan_id": "plan-77a7675c365cbecf"} | end | 估算满足预算与截止时间，保存方案 |
+
 ## step_limit
 
 输入：
@@ -579,4 +613,4 @@
 
 ## 验收边界
 
-失败终态手动续跑未实现，属于加分项。脚本分镜为本地模板；业务费用为模拟单位。真实样本量小，不代表总体成功率。实际投入约2小时，个人负责主要需求/设计决策与代码审核修改，AI协助实现；提交SHA使用git rev-parse HEAD取得。
+失败终态手动续跑已实现，examples/resume包含中断前与续跑后的离线证据。脚本分镜为本地模板；业务费用为模拟单位。真实样本量小，不代表总体成功率。实际投入约2个半小时，个人负责主要需求/设计决策与代码审核修改，AI协助实现；提交SHA使用git rev-parse HEAD取得。

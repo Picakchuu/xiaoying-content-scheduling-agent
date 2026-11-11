@@ -308,6 +308,8 @@
       "next_action": "end"
     }
   ],
+  "resume_count": null,
+  "resume_history": null,
   "plan": null,
   "total_cost": 12,
   "model": "offline-mock",

@@ -14,7 +14,7 @@ HELP = '''内容任务规划 Agent · 对话模式
 推荐输入：主题 + 预算（整数模拟单位）+ 截止日期和时刻 + 可选内容形式偏好。
 例：做新品活动，预算10模拟单位，2026-12-01 18:00前完成，优先精剪视频。
 主题、预算、期限缺失会追问；默认北京时间、合成素材、预算内优先满足偏好，并明确显示。
-/attach 路径  附加文件（含空格路径可加引号）；/run 执行；/repeat 重放；/new 新任务；/help；/exit
+/attach 路径  附加文件（含空格路径可加引号）；/run 执行；/repeat 重放；/resume 续跑未完成任务；/new 新任务；/help；/exit
 理解后会展示需求摘要；输入 /run 才执行。执行完成只表示方案已保存，不代表实际制作或发布。
 '''
 
@@ -70,8 +70,8 @@ def chat(model, store, *, catalog, faults=None, max_steps=16, max_tool_calls=12,
             except (OSError, UnicodeError, ValueError):
                 emit('附件读取失败：请检查路径、UTF-8编码、支持格式、文件大小和素材字段/ID。')
             continue
-        if line in ('/run','/repeat'):
-            if line == '/repeat' and not last_raw:
+        if line in ('/run','/repeat','/resume'):
+            if line in ('/repeat','/resume') and not last_raw:
                 emit('还没有执行过的任务。')
                 continue
             raw = last_raw if last_raw else prepare_request(request_id,draft,attachments)
@@ -84,7 +84,9 @@ def chat(model, store, *, catalog, faults=None, max_steps=16, max_tool_calls=12,
             emit('执行中……')
             def progress(proposal, observation):
                 emit('  '+proposal['action']+' · '+('成功' if observation.get('ok') else '失败：'+observation.get('error_code','unknown')))
-            result = Agent(model,tools,max_steps=max_steps,max_tool_calls=max_tool_calls,clock=clock,on_event=progress).run(raw)
+            result = Agent(model,tools,max_steps=max_steps,max_tool_calls=max_tool_calls,clock=clock,on_event=progress).run(raw,resume=line=='/resume')
+            if result.get('resume_error'):
+                emit('不能续跑：'+result['resume_error'])
             folder = Path('.tmp/chat')/request_id
             write_result(result,folder/'output.json',folder/'trace.jsonl')
             last_raw = raw
@@ -104,7 +106,7 @@ def chat(model, store, *, catalog, faults=None, max_steps=16, max_tool_calls=12,
                 emit('运营待确认：'+'、'.join(result['plan'].get('pending_confirmation',[])))
             if result.get('reason'):
                 emit('未完成原因：'+result['reason'])
-            emit('结果与记录：'+str(folder.resolve())+'。/repeat 重放；/new 开始新任务。')
+            emit('结果与记录：'+str(folder.resolve())+'。/repeat 重放；/resume 续跑未完成任务；/new 开始新任务。')
             continue
         if line.startswith('/'):
             emit('未知命令，请 /help 查看。')

@@ -1,0 +1,9 @@
+{
+  "mode": "mock",
+  "fixed_now": "2026-11-11T10:00:00+08:00",
+  "first_max_steps": 4,
+  "faults": {
+    "save_plan": "fail_once"
+  },
+  "second_resume": true
+}

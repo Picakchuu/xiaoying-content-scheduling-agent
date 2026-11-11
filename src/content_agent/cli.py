@@ -46,6 +46,7 @@ def main(argv=None):
     parser.add_argument('--now', help='timezone-aware fixed clock; mock mode only')
     parser.add_argument('--output')
     parser.add_argument('--trace')
+    parser.add_argument('--resume', action='store_true', help='resume an incomplete request using the same input and database')
     args = parser.parse_args(argv)
     try:
         if args.env_file:
@@ -68,7 +69,7 @@ def main(argv=None):
                         clock=(lambda:fixed) if fixed else None)
         raw = json.loads(Path(args.input).read_text(encoding='utf-8-sig'))
         result = Agent(model, Tools(store, args.catalog, faults), max_steps=args.max_steps,
-                       max_tool_calls=args.max_tool_calls, clock=(lambda: fixed) if fixed else None).run(raw)
+                       max_tool_calls=args.max_tool_calls, clock=(lambda: fixed) if fixed else None).run(raw,resume=args.resume)
         result['synthetic_clock'] = fixed.isoformat() if fixed else None
         print(write_result(result, args.output, args.trace))
         return 0 if result['status'] == 'completed' else 1

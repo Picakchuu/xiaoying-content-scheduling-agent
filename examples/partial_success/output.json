@@ -447,6 +447,8 @@
       "next_action": "end"
     }
   ],
+  "resume_count": null,
+  "resume_history": null,
   "plan": {
     "plan_id": "plan-a2bb4644ad204148",
     "theme": "新品活动",

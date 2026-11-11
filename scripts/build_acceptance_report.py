@@ -28,7 +28,7 @@ def main():
         if not out.get('trace'): lines.append('| — | 无工具执行 | 输入校验或身份检查已结束 | end | 见实际输出 |')
         lines.append('')
     lines+=['## 对话补充证据','', '[真实追问、相对日期与文件输入](chat-live/7ac3833462c8/conversation.json)。对话日志包含用户原话与中文回复，完整执行结果同目录保存。','',
-            '## 验收边界','', '失败终态手动续跑未实现，属于加分项。脚本分镜为本地模板；业务费用为模拟单位。真实样本量小，不代表总体成功率。实际投入约2小时，个人负责主要需求/设计决策与代码审核修改，AI协助实现；提交SHA使用git rev-parse HEAD取得。']
+            '## 验收边界','', '失败终态手动续跑已实现，examples/resume包含中断前与续跑后的离线证据。脚本分镜为本地模板；业务费用为模拟单位。真实样本量小，不代表总体成功率。实际投入约2个半小时，个人负责主要需求/设计决策与代码审核修改，AI协助实现；提交SHA使用git rev-parse HEAD取得。']
     (root/'acceptance-report.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 
 

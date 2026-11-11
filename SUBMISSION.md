@@ -3,7 +3,7 @@
 - 项目：项目题 2：内容任务规划 Agent。
 - GitHub：https://github.com/Picakchuu/xiaoying-content-scheduling-agent
 - 最终commit SHA：使用 `git rev-parse HEAD` 获取本次提交完整值，与提交表单保持一致。
-- 实际投入：约2小时。
+- 实际投入：约2个半小时。
 - 个人贡献：主要需求和设计决策、代码审核修改、CLI实际试用与反馈；以AI辅助编码为主，代码/测试/文档大部分初稿由AI协助完成。
 
 ## 评审顺序

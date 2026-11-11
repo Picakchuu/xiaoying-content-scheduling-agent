@@ -465,6 +465,8 @@
       "next_action": "end"
     }
   ],
+  "resume_count": null,
+  "resume_history": null,
   "plan": {
     "plan_id": "plan-317b32c143692b99",
     "theme": "新品活动",

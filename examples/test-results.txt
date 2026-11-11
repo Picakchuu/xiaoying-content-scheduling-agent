@@ -4,6 +4,9 @@ test_no_feasible_plan (test_agent.AgentTests.test_no_feasible_plan) ... ok
 test_normal_and_duplicate (test_agent.AgentTests.test_normal_and_duplicate) ... ok
 test_partial (test_agent.AgentTests.test_partial) ... ok
 test_replan (test_agent.AgentTests.test_replan) ... ok
+test_resume_does_not_reset_tool_limit (test_agent.AgentTests.test_resume_does_not_reset_tool_limit) ... ok
+test_resume_failed_save_reuses_script_and_cost (test_agent.AgentTests.test_resume_failed_save_reuses_script_and_cost) ... ok
+test_resume_limit_and_expiry (test_agent.AgentTests.test_resume_limit_and_expiry) ... ok
 test_saved_result_replayed_after_deadline (test_agent.AgentTests.test_saved_result_replayed_after_deadline) ... ok
 test_tool_failure (test_agent.AgentTests.test_tool_failure) ... ok
 test_tool_limit (test_agent.AgentTests.test_tool_limit) ... ok
@@ -42,6 +45,6 @@ test_save_rechecks_time (test_tools_storage.ToolsTests.test_save_rechecks_time) 
 test_stale_revision_and_dependency (test_tools_storage.ToolsTests.test_stale_revision_and_dependency) ... ok
 
 ----------------------------------------------------------------------
-Ran 42 tests in 1.062s
+Ran 45 tests in 1.322s
 
 OK
