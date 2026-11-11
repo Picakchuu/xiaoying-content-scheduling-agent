@@ -15,9 +15,11 @@ class ToolError(ValueError):
 
 
 class Tools:
-    def __init__(self, store, catalog=DEFAULT_CATALOG, faults=None):
+    def __init__(self, store, catalog=DEFAULT_CATALOG, faults=None, materials=None):
         self.store = store
         self.catalog = json.loads(Path(catalog).read_text(encoding="utf-8"))
+        if materials is not None:
+            self.catalog['materials'] = materials
         self.faults = faults or {}
         if any(k not in TOOL_NAMES or v not in ("fail_once", "partial_once") for k, v in self.faults.items()):
             raise ValueError("unsupported fault rule")
@@ -72,7 +74,7 @@ class Tools:
         query = args.get("query")
         if not isinstance(query, str) or not query.strip():
             raise ToolError("invalid_args", "query must be non-empty")
-        materials = [m for m in self.catalog["materials"] if query in m["title"] or any(t in query for t in m["tags"])]
+        materials = [m for m in self.catalog["materials"] if query in m["title"] or any(t in query for t in m["tags"]) or any(word in m['summary'] for word in query.split() if len(word) >= 2)]
         # Search does not invalidate a successful script; it retains its source snapshot.
         state["materials"] = materials
         return {"materials": materials, "variants": self.catalog["variants"]}

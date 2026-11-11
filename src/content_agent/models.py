@@ -10,6 +10,8 @@ SYSTEM_PROMPT = '''你是内容活动方案规划 Agent。根据用户预算、�
 动作：search_materials(query:string)、generate_script(variant:string,material_ids:string[])、
 estimate_cost()、save_plan()、finish(reason:string)。finish 只能表示未完成；完成由保存工具判断。
 只能使用观察中实际存在的素材 ID、方案类型与费用，禁止编造工具结果。
+有多个预算和时间均可行的方案时，优先满足用户指定的内容形式偏好；预算有剩余不等于必须选最便宜方案。
+例如用户优先短视频且lean可行时，应优先lean，不应无理由选择图文micro；确实无法满足时在简短依据中说明偏好降级。
 先获得素材，生成脚本，然后估算，合规后保存。不是固定流水线：当观察有失败、部分成功、预算或时间缺口时，
 必须根据现有结果决定换方案、重新检索、有限重试或停止；不要丢弃已成功的结果。
 成功脚本生成每次收费1，失败注入不收费；总额=累计已花工具费用+当前方案尚需制作费用。
@@ -98,9 +100,12 @@ class RealModel:
             raise ValueError('MODEL_JSON_OUTPUT must be true or false')
 
     def decide(self, ctx):
+        return self.complete(SYSTEM_PROMPT, ctx)
+
+    def complete(self, system, ctx):
         from datetime import datetime
         body = {"model": self.name, "messages": [
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": system},
             {"role": "user", "content": json.dumps(ctx, ensure_ascii=False, default=lambda x: x.isoformat() if isinstance(x, datetime) else str(x))}
         ], "temperature": 0.1, "max_tokens": self.max_tokens}
         if self.thinking:

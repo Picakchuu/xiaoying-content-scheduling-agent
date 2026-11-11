@@ -29,11 +29,14 @@ class Request:
     theme: str
     budget: int
     deadline: datetime
+    material_digest: str = ""
 
     def fingerprint(self) -> str:
         from datetime import timezone
         payload = {"theme": self.theme, "budget": self.budget,
                    "deadline": self.deadline.astimezone(timezone.utc).isoformat()}
+        if self.material_digest:
+            payload['material_digest'] = self.material_digest
         return hashlib.sha256(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
@@ -62,6 +65,9 @@ def validate_request(raw: dict, *, now: datetime) -> Validation:
     if "budget" not in result.missing and (type(budget) is not int or budget < 0):
         result.errors.append("budget must be a non-negative integer")
     deadline = None
+    digest = raw.get('material_digest', '')
+    if not isinstance(digest, str) or (digest and (len(digest) != 64 or any(c not in '0123456789abcdef' for c in digest))):
+        result.errors.append('material_digest must be a SHA256 hex string')
     if "deadline" not in result.missing:
         try:
             deadline = datetime.fromisoformat(raw["deadline"])
@@ -72,7 +78,7 @@ def validate_request(raw: dict, *, now: datetime) -> Validation:
         except (TypeError, ValueError):
             result.errors.append("deadline must be an ISO 8601 string")
     if not result.errors and not result.missing:
-        result.request = Request(raw["request_id"].strip(), raw["theme"].strip(), budget, deadline)
+        result.request = Request(raw["request_id"].strip(), raw["theme"].strip(), budget, deadline, digest)
     return result
 
 

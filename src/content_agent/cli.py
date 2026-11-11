@@ -30,8 +30,12 @@ def write_result(result, output=None, trace=None):
 
 
 def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    interactive = bool(argv and argv[0] == 'chat')
+    if interactive:
+        argv.pop(0)
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--input', required=True, help='UTF-8 JSON request file')
+    parser.add_argument('--input', required=not interactive, help='UTF-8 JSON request file')
     parser.add_argument('--db', default='.tmp/plans.db')
     parser.add_argument('--model', choices=('mock', 'real'), default='mock')
     parser.add_argument('--env-file', help='explicit local model configuration; shell env takes precedence')
@@ -55,9 +59,14 @@ def main(argv=None):
             if key not in TOOL_NAMES:
                 raise ValueError('unknown fault tool')
             faults[key] = value
-        raw = json.loads(Path(args.input).read_text(encoding='utf-8-sig'))
         store = Store(args.db)
         model = MockModel() if args.model == 'mock' else RealModel()
+        if interactive:
+            from .chat import chat
+            return chat(model, store, catalog=args.catalog, faults=faults,
+                        max_steps=args.max_steps, max_tool_calls=args.max_tool_calls,
+                        clock=(lambda:fixed) if fixed else None)
+        raw = json.loads(Path(args.input).read_text(encoding='utf-8-sig'))
         result = Agent(model, Tools(store, args.catalog, faults), max_steps=args.max_steps,
                        max_tool_calls=args.max_tool_calls, clock=(lambda: fixed) if fixed else None).run(raw)
         result['synthetic_clock'] = fixed.isoformat() if fixed else None

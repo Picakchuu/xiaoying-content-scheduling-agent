@@ -1,0 +1,7 @@
+{
+  "completed": true,
+  "uses_attached_source": true,
+  "short_video_preference_met": false,
+  "actual_variant": "micro",
+  "note": "Initial live run ignored preferred short-video format. Preserved unchanged; prompt refined and rerun in 7ac3833462c8."
+}

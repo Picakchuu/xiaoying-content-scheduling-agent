@@ -7,12 +7,13 @@ from .storage import ConflictError
 
 
 class Agent:
-    def __init__(self, model, tools, *, max_steps=16, max_tool_calls=12, clock=None):
+    def __init__(self, model, tools, *, max_steps=16, max_tool_calls=12, clock=None, on_event=None):
         if type(max_steps) is not int or type(max_tool_calls) is not int or min(max_steps, max_tool_calls) < 1:
             raise ValueError("execution limits must be positive integers")
         self.model, self.tools, self.store = model, tools, tools.store
         self.max_steps, self.max_tool_calls = max_steps, max_tool_calls
         self.clock = clock or (lambda: datetime.now(timezone.utc))
+        self.on_event = on_event
 
     def run(self, raw):
         validation = validate_request(raw, now=self.clock())
@@ -39,6 +40,7 @@ class Agent:
             state.setdefault("model", self.model.name)
             state.setdefault("mode", getattr(self.model, "mode", "custom"))
             self.store.write(conn, state)
+
         for step in range(1, self.max_steps+1):
             state = self.store.read(request.request_id)
             now = self.clock()
@@ -64,7 +66,7 @@ class Agent:
                 return self.finish(request.request_id, proposal["args"]["reason"])
             if len(state["steps"]) >= self.max_tool_calls:
                 return self.finish(request.request_id, "tool_call_limit reached")
-            observation = self.tools.execute(request.request_id, proposal["action"], proposal["args"], now=now, expected_revision=state["revision"])
+            observation = self.tools.execute(request.request_id, proposal["action"], proposal["args"], now=self.clock(), expected_revision=state["revision"])
             self.record(request.request_id, step, proposal, observation)
             state = self.store.read(request.request_id)
             if state["status"] == "completed":
@@ -82,6 +84,8 @@ class Agent:
             if observation.get("tool") == "model":
                 state["observations"].append(observation)
             self.store.write(conn, state)
+        if self.on_event:
+            self.on_event(proposal, observation)
 
     def finish(self, request_id, reason):
         with self.store.connect() as conn:

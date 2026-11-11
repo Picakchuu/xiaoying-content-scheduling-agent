@@ -80,3 +80,14 @@ class AgentTests(unittest.TestCase):
         out = self.run_case(model=Broken(), max_steps=2)
         self.assertEqual(out["status"], "incomplete")
         self.assertNotIn("secret-provider-details", str(out))
+
+    def test_clock_rechecked_after_model_latency(self):
+        current=[NOW]
+        class SlowModel:
+            name='slow-fixture'
+            def decide(self,ctx):
+                current[0]=NOW+timedelta(days=2)
+                return action('search_materials',{'query':'新品'},'search')
+        out=Agent(SlowModel(),Tools(self.store),clock=lambda:current[0],max_steps=1).run({
+            'request_id':'slow','theme':'新品','budget':10,'deadline':(NOW+timedelta(days=1)).isoformat()})
+        self.assertEqual(out['steps'][0]['error'],'deadline_exceeded')
