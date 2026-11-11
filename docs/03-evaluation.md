@@ -40,7 +40,7 @@ HTTP适配器测试使用响应替身，不调用真实模型；测试通过不�
 
 开发中首次数据库测试受到 Windows tempfile 目录ACL限制；改用仓库内普通临时目录。随后发现测试连接未关闭导致清理失败，改为显式关闭后测试通过。
 
-真实模型评估尚未执行。考核要求的至少两条模型根据不同工具结果调整动作的真实证据仍待补充，不将现有规则 Mock 当作达标证明。建议配置模型后分别执行正常、超预算、故障注入并审阅 Trace，记录模型标识、执行命令、实际结果和失败率。
+已完成下面记录的3组真实模型运行。正常结果后保存与失败结果后模型主动重试构成不同执行路径；当前真实记录没有覆盖估算超支后的替代方案重规划，不把离线12→8路径描述成真实模型证据。
 
 其他限制：素材检索采用合成标签匹配，脚本由本地模板生成；没有外部制作/支付/发布。未提供失败终态手动续跑、生产并发调度或模型质量统计。实际投入时间与个人贡献由候选人确认，不代填。
 
@@ -49,4 +49,21 @@ HTTP适配器测试使用响应替身，不调用真实模型；测试通过不�
 
 用户指定 `deepseek-v4-pro`。根据[官方接口说明](https://api-docs.deepseek.com/api/create-chat-completion/)设置完整端点、JSON输出及非思考模式，可配置最大输出tokens并检测截断。新增env文件字面值解析、环境变量优先级、非法配置整体拒绝、DeepSeek请求参数和截断返回测试。
 
-真实验证脚本为 `python scripts/evaluate_real.py --env-file .env`。当前缺少本地密钥，尚未执行，配置模板不代表接口已验证。
+真实验证命令为 `python scripts/evaluate_real.py --env-file .env`，本轮使用用户本地密钥实际执行；密钥未提交。
+
+
+## 真实模型实际结果
+
+服务：DeepSeek，模型：deepseek-v4-pro，非思考模式，JSON输出，temperature=0.1，max_tokens=3000。使用真实时钟、未来24小时期限、独立SQLite数据库；没有强制模型动作或手工修改输出。
+
+原始运行目录：[18d3a8f54d78](../examples/real/18d3a8f54d78/summary.json)，状态/费用核对结果见 [review.json](../examples/real/18d3a8f54d78/review.json)。各场景的config.json记录开始时间、故障和执行上限，input/output/trace均为实际文件。
+
+| 场景 | 实际结果 | Trace |
+|---|---|---|
+| 正常、预算20 | premium，4次工具调用，1+11=12，completed | [normal](../examples/real/18d3a8f54d78/normal/trace.jsonl) |
+| 预算10 | 模型在检索后提前选择lean，4次调用，1+6=7，completed | [over_budget](../examples/real/18d3a8f54d78/over_budget/trace.jsonl) |
+| 生成工具一次失败、预算10 | lean首次生成失败，模型观察未收费后重试lean，5次调用，1+6=7，completed | [tool_failure](../examples/real/18d3a8f54d78/tool_failure/trace.jsonl) |
+
+核对通过：费用等于成功工具收费之和加剩余制作费，均未超预算；保存ID与实际保存结果一致；故障步骤为failed且费用0，前序检索为succeeded，未重复检索。故障恢复由真实模型再次提出动作，执行器没有自动重试工具。
+
+注意：目录名over_budget表示测试意图，不表示实际发生超支。模型主动规避了12单位方案。此次故障恢复是重试相同方案，不是选择另一制作方式。真实模型预算超限后改选、部分成功后的重规划及多次运行稳定性仍待评估；3次均成功不等于总体成功率为100%。

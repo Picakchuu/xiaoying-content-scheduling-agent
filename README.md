@@ -4,7 +4,7 @@
 
 帮助运营人员从主题、预算和截止时间生成并保存内容活动方案。采用 Python 原生单 Agent，提供 CLI、四个本地业务工具、SQLite 幂等存储、模型动作校验和执行上限。
 
-**当前验证状态：31 项测试、14 组离线实际运行记录通过。真实模型适配器已实现，但尚未进行真实模型调用；离线 Mock 仅证明流程，不证明真实模型决策效果。**
+**当前验证状态：31 项测试、14 组离线运行记录通过；DeepSeek V4 Pro 的3组真实调用均成功保存方案。真实记录覆盖正常、预算规避和模型自主故障重试；真实超预算后改选方案尚未覆盖。离线 Mock 仅证明流程。**
 
 ## 环境与安装
 
@@ -84,6 +84,6 @@ $env:PYTHONPATH = "src"
 python scripts/evaluate_real.py --env-file .env
 ```
 
-该命令会实际调用模型服务，运行正常、预算约束、工具失败三个场景，证据写入 `examples/real/<运行标识>/`。不要把失败记录改写为成功；模型可能预先选择廉价方案，仍需人工核对是否已覆盖两条观察后调整路径。当前尚未执行真实验证。
+该命令会实际调用模型服务，运行正常、预算约束、工具失败三个场景，证据写入 `examples/real/<运行标识>/`。不要把失败记录改写为成功；模型可能预先选择廉价方案，仍需人工核对是否已覆盖两条观察后调整路径。已执行3组真实验证，结果与边界见 [真实验证汇总](examples/real/18d3a8f54d78/review.json)。
 
 单独调用可使用 `python -m content_agent --model real --env-file .env --input .tmp/real-input.json --db .tmp/real.db`。DeepSeek参数依据：[官方Chat Completions文档](https://api-docs.deepseek.com/api/create-chat-completion/)。

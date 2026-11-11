@@ -1,0 +1,20 @@
+{
+  "model": "deepseek-v4-pro",
+  "results": [
+    {
+      "case": "normal",
+      "status": "completed",
+      "reason": null
+    },
+    {
+      "case": "over_budget",
+      "status": "completed",
+      "reason": null
+    },
+    {
+      "case": "tool_failure",
+      "status": "completed",
+      "reason": null
+    }
+  ]
+}

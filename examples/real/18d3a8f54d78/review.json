@@ -1,0 +1,52 @@
+{
+  "model": "deepseek-v4-pro",
+  "mode": "real",
+  "run_id": "18d3a8f54d78",
+  "cases": [
+    {
+      "case": "normal",
+      "status": "completed",
+      "total_cost": 12,
+      "tool_calls": 4,
+      "failed_steps": 0,
+      "arithmetic_and_state_checks_passed": true,
+      "actions": [
+        "search_materials",
+        "generate_script",
+        "estimate_cost",
+        "save_plan"
+      ]
+    },
+    {
+      "case": "over_budget",
+      "status": "completed",
+      "total_cost": 7,
+      "tool_calls": 4,
+      "failed_steps": 0,
+      "arithmetic_and_state_checks_passed": true,
+      "actions": [
+        "search_materials",
+        "generate_script",
+        "estimate_cost",
+        "save_plan"
+      ]
+    },
+    {
+      "case": "tool_failure",
+      "status": "completed",
+      "total_cost": 7,
+      "tool_calls": 5,
+      "failed_steps": 1,
+      "arithmetic_and_state_checks_passed": true,
+      "actions": [
+        "search_materials",
+        "generate_script",
+        "generate_script",
+        "estimate_cost",
+        "save_plan"
+      ]
+    }
+  ],
+  "budget_rejection_observed": false,
+  "note": "Budget case chose lean upfront. Failure case is a model-selected retry, not an alternative-variant replan."
+}

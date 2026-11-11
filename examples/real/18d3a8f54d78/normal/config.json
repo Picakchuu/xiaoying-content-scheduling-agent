@@ -1,0 +1,8 @@
+{
+  "mode": "real",
+  "model": "deepseek-v4-pro",
+  "faults": {},
+  "started_at": "2026-11-11T06:38:50.479333+00:00",
+  "max_steps": 16,
+  "max_tool_calls": 12
+}
