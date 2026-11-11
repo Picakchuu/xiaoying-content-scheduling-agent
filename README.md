@@ -1,34 +1,17 @@
 # 内容任务规划 Agent
 
-小影校招 AI Agent 岗 · 内容任务规划 Agent（ReAct 决策 + 预算与时限约束 + 动态重规划）。
+帮助运营人员在预算和截止时间内完成并保存内容活动方案。Python原生实现，支持终端对话和JSON批处理。业务工具使用合成数据，DeepSeek负责动作选择；费用为模拟单位。
 
-帮助运营人员从主题、预算和截止时间生成并保存内容活动方案。采用 Python 原生单 Agent，提供 CLI、四个本地业务工具、SQLite 幂等存储、模型动作校验和执行上限。
-
-**当前验证状态：40 项测试、14 组离线运行记录通过；DeepSeek V4 Pro 的3组真实调用均成功保存方案。真实记录覆盖正常、预算规避和模型自主故障重试；真实超预算后改选方案尚未覆盖。离线 Mock 仅证明流程。**
-
-
-## v0.2.0：交互式终端
+## 推荐入口：对话模式
 
 ```powershell
-cd D:\project\xiaoying-content-scheduling-agent
 $env:PYTHONPATH = "src"
 python -m content_agent chat --model real --env-file .env
 ```
 
-进入后直接输入，例如：`帮我做新品推广，优先短视频`。系统会追问预算和期限；继续回复 `预算10模拟单位，明天下午6点前完成`，核对需求摘要后输入 `/run`。
+直接描述主题、预算和截止时间；缺少关键约束时会追问。核对中文摘要后输入“开始吧”或 `/run`。`/attach "路径"`支持UTF-8 txt/md说明和JSON素材库，每个128 KiB、最多4个；结构见data/chat-materials.example.json。真实模式会将附件内容发送给配置的模型。
 
-- `/attach "文件路径"`：附加 UTF-8 .txt/.md 活动说明，或 .json 素材库；每个最多128 KiB、总共4个。文件内容在真实模式下会发送给配置的模型。
-- JSON素材结构见 [示例文件](data/chat-materials.example.json)，只读取你显式指定的文件。JSON素材库替换内置素材；文本附件辅助理解需求，不等于已转换成可检索素材库。
-- `/run`：必填信息完整后执行，显示工具进展、内容形式、脚本、费用和保存结果。
-- `/repeat`：重放原结果，不重复调用业务工具；`/new` 开始新任务；`/help` 查看帮助；`/exit` 退出。
-
-主题、预算和期限不会自行补值。未指定时区默认北京时间，未附加JSON素材时使用合成素材，内容形式未指定时由规划器在预算内选择；需求摘要会显示默认规则。日期不明确会追问，预算以整数模拟单位计算，不把人民币默认为模拟单位。
-
-本地试用无需模型时可执行 `python -m content_agent chat --model mock`；离线解析器只支持 `预算10模拟单位` 和 `2026-12-01 18:00` 这类固定格式，不支持任意自然语言或“明天”。
-
-对话本身暂不跨进程恢复；已执行方案仍保存于SQLite，结果和Trace位于 `.tmp/chat/<请求编号>/`。想修改已执行任务，请 `/new`。文本偏好通过模型处理，不承诺任意复杂偏好都能被正确理解，实际内容形式会明确展示。
-
-真实多轮验证：[修正后对话](examples/chat-live/7ac3833462c8/conversation.json)，覆盖缺约束追问、相对日期解析、文件素材、执行与重复重放。
+`/new`新任务，`/repeat`重放，`/help`帮助，`/exit`退出。默认北京时间、合成素材和预算内的内容形式选择；不擅自补预算或期限。JSON素材库替换内置素材，txt/md仅辅助需求理解。
 
 ## 环境与安装
 
@@ -87,27 +70,11 @@ python -m content_agent --model real --input .tmp/real-input.json --db .tmp/real
 
 先按上面的输入格式创建 `.tmp/real-input.json`，使用未来期限和新的 request_id。真实模式不允许 `--now`。真实模型与 Mock 共用执行器与工具，模型只能提出动作，预算、依赖和完成状态由代码校验。模型 API 的真实账单不计入题目模拟预算，需自行管理。
 
+
 ## 评审入口
 
-- [需求与验收](docs/01-requirements.md)、[架构与取舍](docs/02-solution.md)
-- [评估结果与限制](docs/03-evaluation.md)、[离线结果汇总](examples/summary.json)、[测试输出](examples/test-results.txt)
-- [AI 使用说明](docs/04-ai-usage.md)、[复盘](docs/05-retrospective.md)、[分支开发流程](docs/06-development.md)
-- [超预算 Trace](examples/over_budget/trace.jsonl)、[工具失败 Trace](examples/tool_failure/trace.jsonl)
+- [需求](docs/01-requirements.md)、[设计](docs/02-solution.md)、[评估与限制](docs/03-evaluation.md)
+- [AI使用](docs/04-ai-usage.md)、[复盘](docs/05-retrospective.md)
+- [验收索引](examples/ACCEPTANCE.md)、[测试结果](examples/test-results.txt)
 
-重新生成全部离线证据：`python scripts/make_examples.py`。使用独立临时数据库，写入真实执行输出并运行测试；不会生成真实模型证据。各目录 config.json 标明故障、上限与固定时钟。重复与冲突用例依赖 normal 的相同数据库，由脚本按顺序执行。
-
-本项目未扩展 UI、HTTP API、多 Agent 或真实发布。历史 `PROJECT_PLAN.md` 是素材审核/发布排期方向的早期文件，不是当前实现规格，以 docs/01-requirements.md 为准。
-
-
-## DeepSeek V4 Pro 验证入口
-
-当前选择模型为 `deepseek-v4-pro`，官方端点为 `https://api.deepseek.com/chat/completions`。复制 `.env.example` 为本地 `.env`（如果已有配置请保留），只在本地填写密钥。模板设置 `MODEL_THINKING=disabled`、`MODEL_JSON_OUTPUT=true` 与 `MODEL_MAX_TOKENS=3000`；模型根据观察选择动作不要求开启思考模式，且程序不保存 reasoning_content。
-
-```powershell
-$env:PYTHONPATH = "src"
-python scripts/evaluate_real.py --env-file .env
-```
-
-该命令会实际调用模型服务，运行正常、预算约束、工具失败三个场景，证据写入 `examples/real/<运行标识>/`。不要把失败记录改写为成功；模型可能预先选择廉价方案，仍需人工核对是否已覆盖两条观察后调整路径。已执行3组真实验证，结果与边界见 [真实验证汇总](examples/real/18d3a8f54d78/review.json)。
-
-单独调用可使用 `python -m content_agent --model real --env-file .env --input .tmp/real-input.json --db .tmp/real.db`。DeepSeek参数依据：[官方Chat Completions文档](https://api-docs.deepseek.com/api/create-chat-completion/)。
+方案已保存不代表内容已制作或发布。脚本和分镜采用本地模板，不声称是真实创意生成效果。个人贡献与实际投入时间须由候选人如实补充。

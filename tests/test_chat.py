@@ -77,6 +77,17 @@ class ChatTests(unittest.TestCase):
             raise EOFError()
         self.assertEqual(chat(MockModel(),self.store,catalog=DEFAULT_CATALOG,read=eof,emit=lambda _:None),0)
 
+    def test_natural_confirmation_and_plan_handoff(self):
+        text=self.conversation(['新品活动，预算10模拟单位，2026-11-12 18:00前完成','无','开始吧','/exit'])
+        self.assertIn('已保留当前需求',text)
+        self.assertIn('状态：completed',text)
+        self.assertIn('运营待确认',text)
+        with self.store.connect() as conn:
+            payload=json.loads(conn.execute('SELECT payload FROM plans').fetchone()[0])
+        self.assertEqual(payload['tasks'][-1]['status'],'pending')
+        self.assertTrue(payload['script']['sources'])
+        self.assertTrue(payload['deliverables'])
+
     def test_failed_correction_does_not_execute_old_draft(self):
         class Model:
             mode='real'

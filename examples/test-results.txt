@@ -14,6 +14,7 @@ test_eof_exits (test_chat.ChatTests.test_eof_exits) ... ok
 test_failed_correction_does_not_execute_old_draft (test_chat.ChatTests.test_failed_correction_does_not_execute_old_draft) ... ok
 test_file_validation_and_digest_identity (test_chat.ChatTests.test_file_validation_and_digest_identity) ... ok
 test_missing_constraints_do_not_execute_then_follow_up (test_chat.ChatTests.test_missing_constraints_do_not_execute_then_follow_up) ... ok
+test_natural_confirmation_and_plan_handoff (test_chat.ChatTests.test_natural_confirmation_and_plan_handoff) ... ok
 test_real_extractor_retains_draft_and_rejects_fake_budget (test_chat.ChatTests.test_real_extractor_retains_draft_and_rejects_fake_budget) ... ok
 test_unsupported_and_large_files (test_chat.ChatTests.test_unsupported_and_large_files) ... ok
 test_cli_artifacts_and_repeat (test_cli.CliTests.test_cli_artifacts_and_repeat) ... ok
@@ -40,6 +41,6 @@ test_save_rechecks_time (test_tools_storage.ToolsTests.test_save_rechecks_time) 
 test_stale_revision_and_dependency (test_tools_storage.ToolsTests.test_stale_revision_and_dependency) ... ok
 
 ----------------------------------------------------------------------
-Ran 40 tests in 0.990s
+Ran 41 tests in 1.032s
 
 OK

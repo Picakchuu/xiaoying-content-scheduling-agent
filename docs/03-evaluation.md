@@ -9,7 +9,7 @@ $env:PYTHONPATH = "src"
 python scripts/make_examples.py
 ```
 
-实际结果：14 组离线用例状态符合预期，40 项 unittest 全部通过。原始汇总见 [summary.json](../examples/summary.json)，测试输出见 [test-results.txt](../examples/test-results.txt)。所有例子是代码实际执行输出；模式为 mock，固定模拟时钟为 2026-11-11 10:00:00+08:00，不是对未来/过去期限的真实执行承诺。
+实际结果：14 组离线用例状态符合预期，41 项 unittest 全部通过。原始汇总见 [summary.json](../examples/summary.json)，测试输出见 [test-results.txt](../examples/test-results.txt)。所有例子是代码实际执行输出；模式为 mock，固定模拟时钟为 2026-11-11 10:00:00+08:00，不是对未来/过去期限的真实执行承诺。
 
 每组目录提供 input.json、output.json、trace.jsonl 和 config.json。
 
@@ -71,10 +71,15 @@ HTTP适配器测试使用响应替身，不调用真实模型；测试通过不�
 
 ## v0.2 对话验证与改进
 
-新增追问后执行、相对日期、附件schema/大小、附件变化指纹冲突、实际来源注入、EOF退出、解析修正失败禁止执行旧草稿、模型耗时后的期限复核等测试，当前共40项通过。
+新增追问后执行、相对日期、附件schema/大小、附件变化指纹冲突、实际来源注入、EOF退出、解析修正失败禁止执行旧草稿、模型耗时后的期限复核等测试，当前共41项通过。
 
 真实模型执行两轮相同多轮场景：附加本地合成JSON素材，先只输入新品推广和短视频偏好，系统追问预算/期限，补充“预算10模拟单位，明天下午6点”后执行，并重复重放。
 
 第一轮 [821cb69f9a7e](../examples/chat-live/821cb69f9a7e/conversation.json) 完成了输入/素材/保存流程，但选择micro图文，没有满足短视频偏好；原始证据保留。补充“有可行方案时优先满足内容形式，而不是一味最便宜”的提示后，第二轮 [7ac3833462c8](../examples/chat-live/7ac3833462c8/conversation.json) 选择lean轻量短视频，费用7，保存成功。检查结果见 [review.json](../examples/chat-live/7ac3833462c8/review.json)。重复重放没有新增请求或业务工具调用。
 
 这仅是一个偏好问题的单次改进验证，不保证所有自然语言理解正确。对话内容会因模型和时间变化而不同；重要信息在执行前由用户核对。真实预算超限后重规划仍不在这些新证据覆盖范围内。
+
+
+## 交付整理
+
+本地模板方案补充分镜、交付物和待确认项，不编造目标人群、权益或量化效果。新增自然语言执行确认与方案交接测试，离线证据已重新运行生成，真实历史记录未改写。验收入口见 examples/ACCEPTANCE.md。

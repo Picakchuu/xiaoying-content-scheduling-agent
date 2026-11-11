@@ -39,6 +39,11 @@ def chat(model, store, *, catalog, faults=None, max_steps=16, max_tool_calls=12,
             return 0
         if not line:
             continue
+        if line in ('开始吧','执行','开始执行','没有补充，执行'):
+            line='/run'
+        if line in ('无','没有补充'):
+            emit('已保留当前需求。输入 /run 或“开始吧”执行；也可继续补充。')
+            continue
         if line == '/exit':
             return 0
         if line == '/help':
@@ -94,6 +99,9 @@ def chat(model, store, *, catalog, faults=None, max_steps=16, max_tool_calls=12,
                 emit('费用：已用工具 '+str(result['actual_tool_cost'])+' + 尚需制作 '+str(estimate['remaining_plan_cost'])+'；预计完成：'+estimate['estimated_finish'])
             if result.get('saved_plan_id'):
                 emit('已保存方案：'+result['saved_plan_id']+'；内容制作尚未执行。')
+                for shot in result['script'].get('storyboard',[]):
+                    emit('  '+shot['section']+'：'+shot['visual']+'；'+shot['copy'])
+                emit('运营待确认：'+'、'.join(result['plan'].get('pending_confirmation',[])))
             if result.get('reason'):
                 emit('未完成原因：'+result['reason'])
             emit('结果与记录：'+str(folder.resolve())+'。/repeat 重放；/new 开始新任务。')
@@ -112,7 +120,7 @@ def chat(model, store, *, catalog, faults=None, max_steps=16, max_tool_calls=12,
             draft = parser.extract(history,draft,attachments,clock())
             raw = prepare_request(request_id,draft,attachments)
             validation = validate_request(raw,now=clock())
-            emit('需求：'+json.dumps({k:draft[k] for k in ('theme','budget','deadline')},ensure_ascii=False))
+            emit('主题：'+str(draft['theme'] or '待补充')+'；预算：'+(str(draft['budget'])+' 模拟单位' if draft['budget'] is not None else '待补充')+'；截止时间：'+str(draft['deadline'] or '待补充'))
             emit('默认：北京时间；未指定的内容形式由规划器在预算内选择；'+('使用附加JSON素材库。' if any(a['name'].lower().endswith('.json') for a in attachments) else '使用内置合成素材。'))
             if draft['uncertainties']:
                 emit('待明确：'+'；'.join(draft['uncertainties']))

@@ -94,6 +94,10 @@ class Tools:
         script = {"version": state["plan_version"], "variant": variant,
                   "sources": [found[i] for i in ids],
                   "text": f"开场：{state['theme']}。展示：" + "；".join(found[i]["summary"] for i in ids) + " 结尾：邀请参与活动。"}
+        script['storyboard'] = [
+            {'section':'开场', 'visual':'主题标题和产品主画面', 'copy':state['theme']},
+            {'section':'内容展示', 'visual':'素材画面配要点字幕', 'copy':'；'.join(found[i]['summary'] for i in ids)},
+            {'section':'行动引导', 'visual':'活动说明卡片', 'copy':'了解活动详情；具体权益与投放渠道待运营确认'}]
         state["script"] = script
         return script
 
@@ -126,6 +130,9 @@ class Tools:
             raise ToolError("deadline_exceeded", "plan no longer fits deadline")
         plan_id = "plan-" + hashlib.sha256(state["request_id"].encode()).hexdigest()[:16]
         payload = {"plan_id": plan_id, "theme": state["theme"], "script": state["script"],
+                   "objective":"围绕活动主题输出一份可交接制作的内容方案，不承诺未经验证的转化效果",
+                   "deliverables":[variant['format']+'内容草案', '分镜与文案', '素材来源清单', '费用与时间估算'],
+                   "pending_confirmation":['目标受众和投放渠道', '实际活动权益及效果指标'],
                    "estimate": {**estimate, "estimated_finish": finish.isoformat()},
                    "tasks": [{"name": "素材检索", "status": "succeeded"},
                              {"name": "脚本生成", "status": "succeeded"},
