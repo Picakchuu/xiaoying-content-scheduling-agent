@@ -19,4 +19,4 @@
 
 提交仓库：https://github.com/Picakchuu/xiaoying-content-scheduling-agent
 
-最终SHA：提交时运行 `git rev-parse HEAD` 获取，避免文档中的SHA自引用失效。题号请按正式试卷核对；本仓库项目名称为“内容任务规划 Agent”。实际投入约2小时，个人贡献详见docs/04-ai-usage.md。
+最终SHA：提交时运行 `git rev-parse HEAD` 获取，避免文档中的SHA自引用失效。正式题号为2，项目名称为“内容任务规划 Agent”。实际投入约2小时，个人贡献详见docs/04-ai-usage.md。

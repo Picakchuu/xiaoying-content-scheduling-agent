@@ -1,6 +1,6 @@
 # 提交信息
 
-- 项目：内容任务规划 Agent（题号请按正式试卷对应填写）。
+- 项目：项目题 2：内容任务规划 Agent。
 - GitHub：https://github.com/Picakchuu/xiaoying-content-scheduling-agent
 - 最终commit SHA：使用 `git rev-parse HEAD` 获取本次提交完整值，与提交表单保持一致。
 - 实际投入：约2小时。

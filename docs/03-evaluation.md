@@ -92,3 +92,24 @@ HTTP适配器测试使用响应替身，不调用真实模型；测试通过不�
 [输入](../examples/real-replanning/a5b646045987/input.json) · [实际输出](../examples/real-replanning/a5b646045987/output.json) · [Trace](../examples/real-replanning/a5b646045987/trace.jsonl) · [核验](../examples/real-replanning/a5b646045987/review.json)。这条是真实模型生成动作，不是Mock或强制动作回放；报价规则为本地合成测试，不代表真实供应商报价。
 
 新增回归测试确保最终报价覆盖参考价，超预算时保存被拒绝。当前42项测试通过。所有场景集中阅读入口为 [acceptance-report.md](../examples/acceptance-report.md)。
+
+
+## 正式项目题2逐项核验
+
+| 正式要求 | 实现与证据 | 结论 |
+|---|---|---|
+| 主题、预算、截止时间；合成素材与费用耗时 | domain/intake及data/catalog.json | 已实现 |
+| 素材检索、脚本生成、成本估算、方案保存 | tools.py四工具；业务工具为允许的本地实现 | 已实现 |
+| 任务计划、步骤状态、工具结果、费用、保存或原因 | output.json中的plan/steps/estimate/status/reason | 已实现 |
+| 模型观察超预算、错误等后调整，保留成功结果 | 真实12→8 Trace、真实故障恢复Trace；历史步骤保留 | 已验证 |
+| 正常完成 | examples/normal及real/18d3a8f54d78/normal | 已验证 |
+| 缺预算或期限 | examples/missing_budget、missing_deadline及真实追问对话 | 已验证 |
+| 工具失败 | examples/tool_failure及真实tool_failure | 已验证 |
+| 预算超限与无可行方案 | real-replanning/a5b646045987及examples/no_feasible | 已验证；无可行分支目前为离线证据 |
+| 重复执行 | duplicate、idempotency_conflict及真实对话/repeat | 已验证 |
+| 至少两条真实动态路径、Trace及执行上限 | 正常/故障/超预算真实路径，step_limit/call_limit离线测试 | 已提供 |
+| 至少三组输入输出和运行记录 | examples/acceptance-report.md与原始文件 | 已提供 |
+| 文档、依赖和环境模板 | README、docs五文档、pyproject.toml、.env.example | 已提供 |
+| 失败步骤续跑 | 未实现终态手动续跑 | 可选加分项未完成 |
+
+综合结论：项目题2的必需功能与验证材料已具备；不声称所有边缘分支均经过真实模型稳定性验证。未实现题1的素材审核、时段查询或发布排期，这些不属于本项目范围。实际投入约2小时，AI与个人贡献说明已填写。
