@@ -2,7 +2,23 @@
 
 帮助运营人员在预算和截止时间内完成并保存内容活动方案。Python原生实现，支持终端对话和JSON批处理。业务工具使用合成数据，DeepSeek负责动作选择；费用为模拟单位。
 
+## 目录
+
+- src/content_agent/：领域校验、模型、工具、存储和CLI。
+- tests/：标准库unittest可执行测试。
+- data/：合成素材、参考/最终报价规则和附件样例。
+- examples/：集中验收报告、离线及真实输入/输出/Trace、测试结果。
+- scripts/：证据生成、真实评估和数据库只读检查。
+- docs/：需求、设计、评估、AI使用与复盘。
+
 ## 推荐入口：对话模式
+
+先在仓库根目录执行以下命令，仅在.env不存在时复制模板，然后在本地填写MODEL_API_KEY：
+
+```powershell
+if (!(Test-Path .env)) { Copy-Item .env.example .env }
+```
+
 
 ```powershell
 $env:PYTHONPATH = "src"
@@ -77,7 +93,7 @@ python -m content_agent --model real --input .tmp/real-input.json --db .tmp/real
 - [AI使用](docs/04-ai-usage.md)、[复盘](docs/05-retrospective.md)
 - [验收索引](examples/ACCEPTANCE.md)、[测试结果](examples/test-results.txt)
 
-方案已保存不代表内容已制作或发布。脚本和分镜采用本地模板，不声称是真实创意生成效果。个人贡献与实际投入时间须由候选人如实补充。
+方案已保存不代表内容已制作或发布。脚本和分镜采用本地模板。实际投入约2小时，以AI辅助编码为主；个人承担主要需求/设计决策、代码审核修改和CLI试用，详见AI使用说明。
 
 
 ## 数据库

@@ -42,6 +42,6 @@ test_save_rechecks_time (test_tools_storage.ToolsTests.test_save_rechecks_time) 
 test_stale_revision_and_dependency (test_tools_storage.ToolsTests.test_stale_revision_and_dependency) ... ok
 
 ----------------------------------------------------------------------
-Ran 42 tests in 1.023s
+Ran 42 tests in 1.062s
 
 OK
