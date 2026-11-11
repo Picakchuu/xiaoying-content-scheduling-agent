@@ -29,6 +29,7 @@ def action(name, args, why):
 class MockModel:
     """Observation-driven deterministic policy; does not prove real-model reasoning."""
     name = "offline-mock"
+    mode = "mock"
 
     def decide(self, ctx):
         state = ctx["state"]
@@ -71,6 +72,7 @@ class MockModel:
 
 class RealModel:
     """Minimal chat-completions-compatible HTTP adapter; credentials stay in env."""
+    mode = "real"
     def __init__(self):
         self.url = os.environ.get("MODEL_URL", "")
         self.key = os.environ.get("MODEL_API_KEY", "")

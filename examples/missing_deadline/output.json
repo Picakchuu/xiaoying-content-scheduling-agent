@@ -1,0 +1,9 @@
+{
+  "status": "needs_input",
+  "missing": [
+    "deadline"
+  ],
+  "errors": [],
+  "trace": [],
+  "synthetic_clock": "2026-11-11T10:00:00+08:00"
+}

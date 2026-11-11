@@ -63,3 +63,20 @@ class AgentTests(unittest.TestCase):
         out = self.run_case(faults={"search_materials": "partial_once"})
         self.assertEqual(out["status"], "completed")
         self.assertEqual(out["script"]["variant"], "lean")
+
+    def test_saved_result_replayed_after_deadline(self):
+        self.run_case(budget=20)
+        agent = Agent(MockModel(), Tools(self.store), clock=lambda: NOW+timedelta(days=2))
+        out = agent.run({"request_id":"run", "theme":"新品活动", "budget":20,
+                         "deadline":(NOW+timedelta(days=1)).isoformat()})
+        self.assertEqual(out["status"], "completed")
+        self.assertTrue(out["replayed"])
+
+    def test_unknown_provider_failure_is_bounded_and_redacted(self):
+        class Broken:
+            name = "broken-fixture"
+            def decide(self, ctx):
+                raise RuntimeError("secret-provider-details")
+        out = self.run_case(model=Broken(), max_steps=2)
+        self.assertEqual(out["status"], "incomplete")
+        self.assertNotIn("secret-provider-details", str(out))

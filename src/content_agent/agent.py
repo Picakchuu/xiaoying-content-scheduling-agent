@@ -37,7 +37,7 @@ class Agent:
         with self.store.connect() as conn:
             state = self.store.load(conn, request.request_id)
             state.setdefault("model", self.model.name)
-            state.setdefault("mode", "mock" if self.model.name == "offline-mock" else "real")
+            state.setdefault("mode", getattr(self.model, "mode", "custom"))
             self.store.write(conn, state)
         for step in range(1, self.max_steps+1):
             state = self.store.read(request.request_id)
@@ -52,6 +52,11 @@ class Agent:
                 code = "model_error" if isinstance(exc, ModelError) else "invalid_action"
                 observation = {"tool": "model", "ok": False, "error_code": code, "summary": str(exc)}
                 self.record(request.request_id, step, {"action": code, "args": {}, "why": "模型调用或动作校验失败，回灌观察"}, observation)
+                continue
+            except Exception:
+                # Unknown provider failures remain bounded and must not leak credentials.
+                observation = {"tool": "model", "ok": False, "error_code": "model_error", "summary": "unexpected model adapter failure"}
+                self.record(request.request_id, step, {"action": "model_error", "args": {}, "why": "模型适配器异常，回灌安全错误摘要"}, observation)
                 continue
             if proposal["action"] == "finish":
                 obs = {"ok": True, "summary": proposal["args"]["reason"]}
@@ -87,6 +92,9 @@ class Agent:
         return self.output(state)
 
     def output(self, state, replayed=False):
-        return {key: state.get(key) for key in ("request_id", "status", "reason", "steps", "script", "estimate", "actual_tool_cost", "saved_plan_id", "trace")} | {
+        saved = next((s["result"] for s in reversed(state["steps"]) if s["tool"] == "save_plan" and s["status"] == "succeeded"), None)
+        return {key: state.get(key) for key in ("request_id", "theme", "budget", "deadline", "status", "reason", "steps", "script", "estimate", "actual_tool_cost", "saved_plan_id", "trace")} | {
+            "plan": saved,
+            "total_cost": state["estimate"]["total_cost"] if state["estimate"] else None,
             "model": state.get("model", self.model.name), "replayed": replayed,
             "mode": state.get("mode", "unknown")}

@@ -1,0 +1,10 @@
+{
+  "mode": "mock",
+  "fixed_now": "2026-11-11T10:00:00+08:00",
+  "faults": {
+    "generate_script": "fail_once"
+  },
+  "limits": {},
+  "expected_status": "completed",
+  "actual_status": "completed"
+}

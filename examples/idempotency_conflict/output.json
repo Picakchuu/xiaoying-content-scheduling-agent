@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "reason": "request_id already belongs to different input",
+  "error_code": "idempotency_conflict",
+  "trace": [],
+  "synthetic_clock": "2026-11-11T10:00:00+08:00"
+}

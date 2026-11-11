@@ -1,0 +1,126 @@
+{
+  "request_id": "step_limit",
+  "theme": "新品活动",
+  "budget": 20,
+  "deadline": "2026-11-12T10:00:00+08:00",
+  "status": "incomplete",
+  "reason": "step_limit reached",
+  "steps": [
+    {
+      "tool": "search_materials",
+      "args": {
+        "query": "新品活动"
+      },
+      "status": "succeeded",
+      "cost": 0,
+      "result": {
+        "materials": [
+          {
+            "id": "brand",
+            "title": "品牌故事素材",
+            "tags": [
+              "新品",
+              "品牌",
+              "活动"
+            ],
+            "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+          },
+          {
+            "id": "tips",
+            "title": "轻量内容素材",
+            "tags": [
+              "新品",
+              "活动",
+              "教程"
+            ],
+            "summary": "合成图文要点与用户使用场景。"
+          }
+        ],
+        "variants": {
+          "premium": {
+            "production_cost": 11,
+            "production_minutes": 120,
+            "format": "精剪视频"
+          },
+          "lean": {
+            "production_cost": 6,
+            "production_minutes": 40,
+            "format": "轻量短视频"
+          },
+          "micro": {
+            "production_cost": 3,
+            "production_minutes": 15,
+            "format": "图文卡片"
+          }
+        }
+      }
+    }
+  ],
+  "script": null,
+  "estimate": null,
+  "actual_tool_cost": 0,
+  "saved_plan_id": null,
+  "trace": [
+    {
+      "step": 1,
+      "action": "search_materials",
+      "args": {
+        "query": "新品活动"
+      },
+      "rationale": "先查找可用素材和制作方案",
+      "observation": {
+        "ok": true,
+        "tool": "search_materials",
+        "data": {
+          "materials": [
+            {
+              "id": "brand",
+              "title": "品牌故事素材",
+              "tags": [
+                "新品",
+                "品牌",
+                "活动"
+              ],
+              "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+            },
+            {
+              "id": "tips",
+              "title": "轻量内容素材",
+              "tags": [
+                "新品",
+                "活动",
+                "教程"
+              ],
+              "summary": "合成图文要点与用户使用场景。"
+            }
+          ],
+          "variants": {
+            "premium": {
+              "production_cost": 11,
+              "production_minutes": 120,
+              "format": "精剪视频"
+            },
+            "lean": {
+              "production_cost": 6,
+              "production_minutes": 40,
+              "format": "轻量短视频"
+            },
+            "micro": {
+              "production_cost": 3,
+              "production_minutes": 15,
+              "format": "图文卡片"
+            }
+          }
+        },
+        "summary": "{\"materials\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品\", \"活动\", \"教程\"], \"summary\": \"合成图文要点与用户使用场景。\"}], \"variants\": {\"premium\": {\"production_cost\": 11, \"production_minutes\": 120, \"format\": \"精剪视频\"}, \"lean\": {\"production_cost\": 6, \"production_minutes\": 40, \"format\": \"轻量短视频\"}, \"micro\": {\"production_cost\": 3, \"production_minutes\": 15, \"format\": \"图文卡片\"}}}"
+      },
+      "next_action": "end"
+    }
+  ],
+  "plan": null,
+  "total_cost": null,
+  "model": "offline-mock",
+  "replayed": false,
+  "mode": "mock",
+  "synthetic_clock": "2026-11-11T10:00:00+08:00"
+}

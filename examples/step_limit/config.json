@@ -1,0 +1,10 @@
+{
+  "mode": "mock",
+  "fixed_now": "2026-11-11T10:00:00+08:00",
+  "faults": {},
+  "limits": {
+    "max_steps": 1
+  },
+  "expected_status": "incomplete",
+  "actual_status": "incomplete"
+}

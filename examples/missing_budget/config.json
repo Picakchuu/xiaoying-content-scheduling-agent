@@ -1,0 +1,8 @@
+{
+  "mode": "mock",
+  "fixed_now": "2026-11-11T10:00:00+08:00",
+  "faults": {},
+  "limits": {},
+  "expected_status": "needs_input",
+  "actual_status": "needs_input"
+}
