@@ -74,3 +74,12 @@ class ToolsTests(unittest.TestCase):
         self.assertEqual(self.call("estimate_cost")["error_code"], "dependency_missing")
         result = self.tools.execute("case", "search_materials", {"query": "新品"}, now=NOW, expected_revision=0)
         self.assertEqual(result["error_code"], "stale_state")
+
+    def test_final_quote_overrides_reference_and_blocks_save(self):
+        self.tools=Tools(self.store,'data/quote-change.json')
+        search=self.call('search_materials',query='新品')
+        self.assertEqual(search['data']['variants']['premium']['production_cost'],8)
+        self.call('generate_script',variant='premium',material_ids=['brand'])
+        self.assertEqual(self.call('estimate_cost')['data']['total_cost'],12)
+        self.assertEqual(self.call('save_plan')['error_code'],'budget_exceeded')
+        self.assertIsNone(self.store.read('case')['saved_plan_id'])

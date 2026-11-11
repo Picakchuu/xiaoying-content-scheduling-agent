@@ -78,3 +78,22 @@ python -m content_agent --model real --input .tmp/real-input.json --db .tmp/real
 - [验收索引](examples/ACCEPTANCE.md)、[测试结果](examples/test-results.txt)
 
 方案已保存不代表内容已制作或发布。脚本和分镜采用本地模板，不声称是真实创意生成效果。个人贡献与实际投入时间须由候选人如实补充。
+
+
+## 数据库
+
+使用Python标准库sqlite3访问SQLite，无需安装数据库服务。默认文件为仓库下 `.tmp/plans.db`，可用 `--db 路径` 指定。`runs(id,fingerprint,state)`保存请求身份和JSON执行快照；`plans(request_id,plan_id,payload)`保存方案，request_id唯一，防止重复保存。
+
+状态和方案在事务中提交，失败回滚；连接用后关闭。适用于本地单执行者CLI，不是生产级并发调度。数据库和临时输出不会提交Git。
+
+```powershell
+python scripts/inspect_db.py --db .tmp/plans.db
+```
+
+该命令只读列出请求编号、状态、费用和保存ID，不创建数据库。更换数据库文件会失去原库的幂等历史；勿在任务运行时删除数据库。
+
+## 集中验收
+
+[一份完整验收报告](examples/acceptance-report.md)集中列出输入、实际输出摘要和逐步Trace；原始文件通过链接保留。离线重建后运行 `python scripts/build_acceptance_report.py` 更新报告。
+
+真实超预算后重规划已验证：[12→8实际记录](examples/real-replanning/a5b646045987/review.json)。复现命令为 `python scripts/evaluate_replanning.py`，会真实调用模型；场景是参考价与最终报价不同，不预设模型动作。

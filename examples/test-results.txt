@@ -35,12 +35,13 @@ test_missing_config (test_models.ModelTests.test_missing_config) ... ok
 test_request_and_content (test_models.ModelTests.test_request_and_content) ... ok
 test_duplicate_and_conflict (test_tools_storage.ToolsTests.test_duplicate_and_conflict) ... ok
 test_failure_keeps_success_and_no_charge (test_tools_storage.ToolsTests.test_failure_keeps_success_and_no_charge) ... ok
+test_final_quote_overrides_reference_and_blocks_save (test_tools_storage.ToolsTests.test_final_quote_overrides_reference_and_blocks_save) ... ok
 test_partial_search (test_tools_storage.ToolsTests.test_partial_search) ... ok
 test_replan_counts_sunk_cost_and_saves (test_tools_storage.ToolsTests.test_replan_counts_sunk_cost_and_saves) ... ok
 test_save_rechecks_time (test_tools_storage.ToolsTests.test_save_rechecks_time) ... ok
 test_stale_revision_and_dependency (test_tools_storage.ToolsTests.test_stale_revision_and_dependency) ... ok
 
 ----------------------------------------------------------------------
-Ran 41 tests in 1.032s
+Ran 42 tests in 1.023s
 
 OK

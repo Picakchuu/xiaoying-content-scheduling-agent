@@ -1,0 +1,6 @@
+{
+  "mode": "real",
+  "model": "deepseek-v4-pro",
+  "catalog": "data/quote-change.json",
+  "scenario": "参考premium制作费8，最终报价11；两次脚本生成后lean合计8。工具不强制模型选premium。"
+}

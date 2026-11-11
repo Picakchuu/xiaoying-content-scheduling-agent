@@ -52,7 +52,8 @@
             "production_minutes": 15,
             "format": "图文卡片"
           }
-        }
+        },
+        "pricing_note": "检索展示参考制作费；最终费用以estimate_cost报价为准。"
       }
     },
     {
@@ -295,9 +296,10 @@
               "production_minutes": 15,
               "format": "图文卡片"
             }
-          }
+          },
+          "pricing_note": "检索展示参考制作费；最终费用以estimate_cost报价为准。"
         },
-        "summary": "{\"materials\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品\", \"活动\", \"教程\"], \"summary\": \"合成图文要点与用户使用场景。\"}], \"variants\": {\"premium\": {\"production_cost\": 11, \"production_minutes\": 120, \"format\": \"精剪视频\"}, \"lean\": {\"production_cost\": 6, \"production_minutes\": 40, \"format\": \"轻量短视频\"}, \"micro\": {\"production_cost\": 3, \"production_minutes\": 15, \"format\": \"图文卡片\"}}}"
+        "summary": "{\"materials\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品\", \"活动\", \"教程\"], \"summary\": \"合成图文要点与用户使用场景。\"}], \"variants\": {\"premium\": {\"production_cost\": 11, \"production_minutes\": 120, \"format\": \"精剪视频\"}, \"lean\": {\"production_cost\": 6, \"production_minutes\": 40, \"format\": \"轻量短视频\"}, \"micro\": {\"production_cost\": 3, \"production_minutes\": 15, \"format\": \"图文卡片\"}}, \"pricing_note\": \"检索展示参考制作费；最终费用以estimate_cost报价为准。\"}"
       },
       "next_action": "generate_script"
     },

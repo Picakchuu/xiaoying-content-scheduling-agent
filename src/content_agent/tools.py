@@ -77,7 +77,16 @@ class Tools:
         materials = [m for m in self.catalog["materials"] if query in m["title"] or any(t in query for t in m["tags"]) or any(word in m['summary'] for word in query.split() if len(word) >= 2)]
         # Search does not invalidate a successful script; it retains its source snapshot.
         state["materials"] = materials
-        return {"materials": materials, "variants": self.catalog["variants"]}
+        return {"materials": materials, "variants": self.catalog["variants"],
+                "pricing_note":"检索展示参考制作费；最终费用以estimate_cost报价为准。"}
+
+    def _quoted_variant(self, name):
+        variant = dict(self.catalog['variants'][name])
+        price = self.catalog.get('final_production_costs', {}).get(name, variant['production_cost'])
+        if type(price) is not int or price < 0:
+            raise ToolError('invalid_pricing', 'final production cost must be a non-negative integer')
+        variant['production_cost'] = price
+        return variant
 
     def _generate_script(self, state, args, now, conn):
         variant = args.get("variant")
@@ -104,7 +113,7 @@ class Tools:
     def _estimate_cost(self, state, args, now, conn):
         if not state["script"]:
             raise ToolError("dependency_missing", "generate a script before estimating")
-        variant = self.catalog["variants"][state["script"]["variant"]]
+        variant = self._quoted_variant(state["script"]["variant"])
         total = state["actual_tool_cost"] + variant["production_cost"]
         finish = self._clock(state, now) + timedelta(minutes=variant["production_minutes"])
         deadline = datetime.fromisoformat(state["deadline"])
@@ -121,7 +130,7 @@ class Tools:
         estimate = state["estimate"]
         if not estimate or estimate["version"] != state["plan_version"]:
             raise ToolError("dependency_missing", "estimate current script before saving")
-        variant = self.catalog["variants"][state["script"]["variant"]]
+        variant = self._quoted_variant(state["script"]["variant"])
         finish = self._clock(state, now) + timedelta(minutes=variant["production_minutes"])
         total = state["actual_tool_cost"] + variant["production_cost"]
         if total > state["budget"]:

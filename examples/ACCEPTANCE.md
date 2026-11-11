@@ -15,7 +15,7 @@
 | 真实决策 | real/18d3a8f54d78/ | 正常、预算规避、模型主动故障重试 |
 | 对话与文件 | chat-live/7ac3833462c8/ | 追问、相对日期、素材输入及重放 |
 
-离线12→8不能当作真实模型超预算后重规划证据。真实记录中预算10时模型提前选择费用7的方案；工具失败后由模型主动选择重试。真实复杂重规划和稳定性仍有限制。
+离线12→8不作为真实模型证明；真实报价变化样本 real-replanning/a5b646045987/ 已另行验证12→8。早期预算样本是提前规避，不能混为同一次执行。集中阅读见 [acceptance-report.md](acceptance-report.md)。
 
 提交仓库：https://github.com/Picakchuu/xiaoying-content-scheduling-agent
 

@@ -1,0 +1,766 @@
+{
+  "request_id": "a5b646045987",
+  "theme": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格",
+  "budget": 10,
+  "deadline": "2026-11-12T07:16:03.930327+00:00",
+  "status": "completed",
+  "reason": null,
+  "steps": [
+    {
+      "tool": "search_materials",
+      "args": {
+        "query": "新品活动 精剪视频"
+      },
+      "status": "succeeded",
+      "cost": 0,
+      "result": {
+        "materials": [
+          {
+            "id": "brand",
+            "title": "品牌故事素材",
+            "tags": [
+              "新品",
+              "品牌",
+              "活动"
+            ],
+            "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+          },
+          {
+            "id": "tips",
+            "title": "轻量内容素材",
+            "tags": [
+              "新品",
+              "活动",
+              "教程"
+            ],
+            "summary": "合成图文要点与用户使用场景。"
+          }
+        ],
+        "variants": {
+          "premium": {
+            "production_cost": 8,
+            "production_minutes": 120,
+            "format": "精剪视频"
+          },
+          "lean": {
+            "production_cost": 6,
+            "production_minutes": 40,
+            "format": "轻量短视频"
+          },
+          "micro": {
+            "production_cost": 3,
+            "production_minutes": 15,
+            "format": "图文卡片"
+          }
+        },
+        "pricing_note": "检索展示参考制作费；最终费用以estimate_cost报价为准。"
+      }
+    },
+    {
+      "tool": "generate_script",
+      "args": {
+        "variant": "premium",
+        "material_ids": [
+          "brand",
+          "tips"
+        ]
+      },
+      "status": "succeeded",
+      "cost": 1,
+      "result": {
+        "version": 1,
+        "variant": "premium",
+        "sources": [
+          {
+            "id": "brand",
+            "title": "品牌故事素材",
+            "tags": [
+              "新品",
+              "品牌",
+              "活动"
+            ],
+            "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+          },
+          {
+            "id": "tips",
+            "title": "轻量内容素材",
+            "tags": [
+              "新品",
+              "活动",
+              "教程"
+            ],
+            "summary": "合成图文要点与用户使用场景。"
+          }
+        ],
+        "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+        "storyboard": [
+          {
+            "section": "开场",
+            "visual": "主题标题和产品主画面",
+            "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+          },
+          {
+            "section": "内容展示",
+            "visual": "素材画面配要点字幕",
+            "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+          },
+          {
+            "section": "行动引导",
+            "visual": "活动说明卡片",
+            "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+          }
+        ]
+      }
+    },
+    {
+      "tool": "estimate_cost",
+      "args": {},
+      "status": "succeeded",
+      "cost": 0,
+      "result": {
+        "version": 1,
+        "spent_tool_cost": 1,
+        "remaining_plan_cost": 11,
+        "total_cost": 12,
+        "budget_gap": 2,
+        "estimated_finish": "2026-11-11T09:17:13.804787+00:00",
+        "time_gap_minutes": 0,
+        "feasible": false
+      }
+    },
+    {
+      "tool": "generate_script",
+      "args": {
+        "variant": "lean",
+        "material_ids": [
+          "brand",
+          "tips"
+        ]
+      },
+      "status": "succeeded",
+      "cost": 1,
+      "result": {
+        "version": 2,
+        "variant": "lean",
+        "sources": [
+          {
+            "id": "brand",
+            "title": "品牌故事素材",
+            "tags": [
+              "新品",
+              "品牌",
+              "活动"
+            ],
+            "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+          },
+          {
+            "id": "tips",
+            "title": "轻量内容素材",
+            "tags": [
+              "新品",
+              "活动",
+              "教程"
+            ],
+            "summary": "合成图文要点与用户使用场景。"
+          }
+        ],
+        "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+        "storyboard": [
+          {
+            "section": "开场",
+            "visual": "主题标题和产品主画面",
+            "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+          },
+          {
+            "section": "内容展示",
+            "visual": "素材画面配要点字幕",
+            "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+          },
+          {
+            "section": "行动引导",
+            "visual": "活动说明卡片",
+            "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+          }
+        ]
+      }
+    },
+    {
+      "tool": "estimate_cost",
+      "args": {},
+      "status": "succeeded",
+      "cost": 0,
+      "result": {
+        "version": 2,
+        "spent_tool_cost": 2,
+        "remaining_plan_cost": 6,
+        "total_cost": 8,
+        "budget_gap": 0,
+        "estimated_finish": "2026-11-11T07:58:20.775474+00:00",
+        "time_gap_minutes": 0,
+        "feasible": true
+      }
+    },
+    {
+      "tool": "save_plan",
+      "args": {},
+      "status": "succeeded",
+      "cost": 0,
+      "result": {
+        "plan_id": "plan-b9a357f8e402ddba",
+        "theme": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格",
+        "script": {
+          "version": 2,
+          "variant": "lean",
+          "sources": [
+            {
+              "id": "brand",
+              "title": "品牌故事素材",
+              "tags": [
+                "新品",
+                "品牌",
+                "活动"
+              ],
+              "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+            },
+            {
+              "id": "tips",
+              "title": "轻量内容素材",
+              "tags": [
+                "新品",
+                "活动",
+                "教程"
+              ],
+              "summary": "合成图文要点与用户使用场景。"
+            }
+          ],
+          "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+          "storyboard": [
+            {
+              "section": "开场",
+              "visual": "主题标题和产品主画面",
+              "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+            },
+            {
+              "section": "内容展示",
+              "visual": "素材画面配要点字幕",
+              "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+            },
+            {
+              "section": "行动引导",
+              "visual": "活动说明卡片",
+              "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+            }
+          ]
+        },
+        "objective": "围绕活动主题输出一份可交接制作的内容方案，不承诺未经验证的转化效果",
+        "deliverables": [
+          "轻量短视频内容草案",
+          "分镜与文案",
+          "素材来源清单",
+          "费用与时间估算"
+        ],
+        "pending_confirmation": [
+          "目标受众和投放渠道",
+          "实际活动权益及效果指标"
+        ],
+        "estimate": {
+          "version": 2,
+          "spent_tool_cost": 2,
+          "remaining_plan_cost": 6,
+          "total_cost": 8,
+          "budget_gap": 0,
+          "estimated_finish": "2026-11-11T07:58:24.205474+00:00",
+          "time_gap_minutes": 0,
+          "feasible": true
+        },
+        "tasks": [
+          {
+            "name": "素材检索",
+            "status": "succeeded"
+          },
+          {
+            "name": "脚本生成",
+            "status": "succeeded"
+          },
+          {
+            "name": "内容制作",
+            "status": "pending",
+            "production_cost": 6,
+            "production_minutes": 40,
+            "format": "轻量短视频"
+          }
+        ]
+      }
+    }
+  ],
+  "script": {
+    "version": 2,
+    "variant": "lean",
+    "sources": [
+      {
+        "id": "brand",
+        "title": "品牌故事素材",
+        "tags": [
+          "新品",
+          "品牌",
+          "活动"
+        ],
+        "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+      },
+      {
+        "id": "tips",
+        "title": "轻量内容素材",
+        "tags": [
+          "新品",
+          "活动",
+          "教程"
+        ],
+        "summary": "合成图文要点与用户使用场景。"
+      }
+    ],
+    "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+    "storyboard": [
+      {
+        "section": "开场",
+        "visual": "主题标题和产品主画面",
+        "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+      },
+      {
+        "section": "内容展示",
+        "visual": "素材画面配要点字幕",
+        "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+      },
+      {
+        "section": "行动引导",
+        "visual": "活动说明卡片",
+        "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+      }
+    ]
+  },
+  "estimate": {
+    "version": 2,
+    "spent_tool_cost": 2,
+    "remaining_plan_cost": 6,
+    "total_cost": 8,
+    "budget_gap": 0,
+    "estimated_finish": "2026-11-11T07:58:20.775474+00:00",
+    "time_gap_minutes": 0,
+    "feasible": true
+  },
+  "actual_tool_cost": 2,
+  "saved_plan_id": "plan-b9a357f8e402ddba",
+  "trace": [
+    {
+      "step": 1,
+      "action": "search_materials",
+      "args": {
+        "query": "新品活动 精剪视频"
+      },
+      "rationale": "优先满足用户精剪视频偏好，先检索相关素材",
+      "observation": {
+        "ok": true,
+        "tool": "search_materials",
+        "data": {
+          "materials": [
+            {
+              "id": "brand",
+              "title": "品牌故事素材",
+              "tags": [
+                "新品",
+                "品牌",
+                "活动"
+              ],
+              "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+            },
+            {
+              "id": "tips",
+              "title": "轻量内容素材",
+              "tags": [
+                "新品",
+                "活动",
+                "教程"
+              ],
+              "summary": "合成图文要点与用户使用场景。"
+            }
+          ],
+          "variants": {
+            "premium": {
+              "production_cost": 8,
+              "production_minutes": 120,
+              "format": "精剪视频"
+            },
+            "lean": {
+              "production_cost": 6,
+              "production_minutes": 40,
+              "format": "轻量短视频"
+            },
+            "micro": {
+              "production_cost": 3,
+              "production_minutes": 15,
+              "format": "图文卡片"
+            }
+          },
+          "pricing_note": "检索展示参考制作费；最终费用以estimate_cost报价为准。"
+        },
+        "summary": "{\"materials\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品\", \"活动\", \"教程\"], \"summary\": \"合成图文要点与用户使用场景。\"}], \"variants\": {\"premium\": {\"production_cost\": 8, \"production_minutes\": 120, \"format\": \"精剪视频\"}, \"lean\": {\"production_cost\": 6, \"production_minutes\": 40, \"format\": \"轻量短视频\"}, \"micro\": {\"production_cost\": 3, \"production_minutes\": 15, \"format\": \"图文卡片\"}}, \"pricing_note\": \"检索展示参考制作费；最终费用以estimate_cost报价为准。\"}"
+      },
+      "next_action": "generate_script"
+    },
+    {
+      "step": 2,
+      "action": "generate_script",
+      "args": {
+        "variant": "premium",
+        "material_ids": [
+          "brand",
+          "tips"
+        ]
+      },
+      "rationale": "用户偏好精剪视频，素材充足，先生成脚本",
+      "observation": {
+        "ok": true,
+        "tool": "generate_script",
+        "data": {
+          "version": 1,
+          "variant": "premium",
+          "sources": [
+            {
+              "id": "brand",
+              "title": "品牌故事素材",
+              "tags": [
+                "新品",
+                "品牌",
+                "活动"
+              ],
+              "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+            },
+            {
+              "id": "tips",
+              "title": "轻量内容素材",
+              "tags": [
+                "新品",
+                "活动",
+                "教程"
+              ],
+              "summary": "合成图文要点与用户使用场景。"
+            }
+          ],
+          "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+          "storyboard": [
+            {
+              "section": "开场",
+              "visual": "主题标题和产品主画面",
+              "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+            },
+            {
+              "section": "内容展示",
+              "visual": "素材画面配要点字幕",
+              "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+            },
+            {
+              "section": "行动引导",
+              "visual": "活动说明卡片",
+              "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+            }
+          ]
+        },
+        "summary": "{\"version\": 1, \"variant\": \"premium\", \"sources\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品\", \"活动\", \"教程\"], \"summary\": \"合成图文要点与用户使用场景。\"}], \"text\": \"开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。\", \"storyboard\": [{\"section\": \"开场\", \"visual\": \"主题标题和产品主画面\", \"copy\": \"新品活动，预算允许时优先精剪视频，超预算可降低制作规格\"}, {\"section\": \"内容展示\", \"visual\": \"素材画面配要点字幕\", \"copy\": \"合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。\"}, {\"section\": \"行动引导\", \"visual\": \"活动说明卡片\", \"copy\": \"了解活动详情；具体权益与投放渠道待运营确认\"}]}"
+      },
+      "next_action": "estimate_cost"
+    },
+    {
+      "step": 3,
+      "action": "estimate_cost",
+      "args": {},
+      "rationale": "已生成premium脚本，需估算总费用确认是否在预算内",
+      "observation": {
+        "ok": true,
+        "tool": "estimate_cost",
+        "data": {
+          "version": 1,
+          "spent_tool_cost": 1,
+          "remaining_plan_cost": 11,
+          "total_cost": 12,
+          "budget_gap": 2,
+          "estimated_finish": "2026-11-11T09:17:13.804787+00:00",
+          "time_gap_minutes": 0,
+          "feasible": false
+        },
+        "summary": "{\"version\": 1, \"spent_tool_cost\": 1, \"remaining_plan_cost\": 11, \"total_cost\": 12, \"budget_gap\": 2, \"estimated_finish\": \"2026-11-11T09:17:13.804787+00:00\", \"time_gap_minutes\": 0, \"feasible\": false}"
+      },
+      "next_action": "generate_script"
+    },
+    {
+      "step": 4,
+      "action": "generate_script",
+      "args": {
+        "variant": "lean",
+        "material_ids": [
+          "brand",
+          "tips"
+        ]
+      },
+      "rationale": "premium方案超预算2元，改用lean轻量短视频以符合预算并尽量保留视频形式",
+      "observation": {
+        "ok": true,
+        "tool": "generate_script",
+        "data": {
+          "version": 2,
+          "variant": "lean",
+          "sources": [
+            {
+              "id": "brand",
+              "title": "品牌故事素材",
+              "tags": [
+                "新品",
+                "品牌",
+                "活动"
+              ],
+              "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+            },
+            {
+              "id": "tips",
+              "title": "轻量内容素材",
+              "tags": [
+                "新品",
+                "活动",
+                "教程"
+              ],
+              "summary": "合成图文要点与用户使用场景。"
+            }
+          ],
+          "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+          "storyboard": [
+            {
+              "section": "开场",
+              "visual": "主题标题和产品主画面",
+              "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+            },
+            {
+              "section": "内容展示",
+              "visual": "素材画面配要点字幕",
+              "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+            },
+            {
+              "section": "行动引导",
+              "visual": "活动说明卡片",
+              "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+            }
+          ]
+        },
+        "summary": "{\"version\": 2, \"variant\": \"lean\", \"sources\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品\", \"活动\", \"教程\"], \"summary\": \"合成图文要点与用户使用场景。\"}], \"text\": \"开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。\", \"storyboard\": [{\"section\": \"开场\", \"visual\": \"主题标题和产品主画面\", \"copy\": \"新品活动，预算允许时优先精剪视频，超预算可降低制作规格\"}, {\"section\": \"内容展示\", \"visual\": \"素材画面配要点字幕\", \"copy\": \"合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。\"}, {\"section\": \"行动引导\", \"visual\": \"活动说明卡片\", \"copy\": \"了解活动详情；具体权益与投放渠道待运营确认\"}]}"
+      },
+      "next_action": "estimate_cost"
+    },
+    {
+      "step": 5,
+      "action": "estimate_cost",
+      "args": {},
+      "rationale": "已生成lean脚本，需估算总费用确认是否在预算内",
+      "observation": {
+        "ok": true,
+        "tool": "estimate_cost",
+        "data": {
+          "version": 2,
+          "spent_tool_cost": 2,
+          "remaining_plan_cost": 6,
+          "total_cost": 8,
+          "budget_gap": 0,
+          "estimated_finish": "2026-11-11T07:58:20.775474+00:00",
+          "time_gap_minutes": 0,
+          "feasible": true
+        },
+        "summary": "{\"version\": 2, \"spent_tool_cost\": 2, \"remaining_plan_cost\": 6, \"total_cost\": 8, \"budget_gap\": 0, \"estimated_finish\": \"2026-11-11T07:58:20.775474+00:00\", \"time_gap_minutes\": 0, \"feasible\": true}"
+      },
+      "next_action": "save_plan"
+    },
+    {
+      "step": 6,
+      "action": "save_plan",
+      "args": {},
+      "rationale": "lean方案总费用8在预算10内且时间可行，保存计划",
+      "observation": {
+        "ok": true,
+        "tool": "save_plan",
+        "data": {
+          "plan_id": "plan-b9a357f8e402ddba",
+          "theme": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格",
+          "script": {
+            "version": 2,
+            "variant": "lean",
+            "sources": [
+              {
+                "id": "brand",
+                "title": "品牌故事素材",
+                "tags": [
+                  "新品",
+                  "品牌",
+                  "活动"
+                ],
+                "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+              },
+              {
+                "id": "tips",
+                "title": "轻量内容素材",
+                "tags": [
+                  "新品",
+                  "活动",
+                  "教程"
+                ],
+                "summary": "合成图文要点与用户使用场景。"
+              }
+            ],
+            "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+            "storyboard": [
+              {
+                "section": "开场",
+                "visual": "主题标题和产品主画面",
+                "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+              },
+              {
+                "section": "内容展示",
+                "visual": "素材画面配要点字幕",
+                "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+              },
+              {
+                "section": "行动引导",
+                "visual": "活动说明卡片",
+                "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+              }
+            ]
+          },
+          "objective": "围绕活动主题输出一份可交接制作的内容方案，不承诺未经验证的转化效果",
+          "deliverables": [
+            "轻量短视频内容草案",
+            "分镜与文案",
+            "素材来源清单",
+            "费用与时间估算"
+          ],
+          "pending_confirmation": [
+            "目标受众和投放渠道",
+            "实际活动权益及效果指标"
+          ],
+          "estimate": {
+            "version": 2,
+            "spent_tool_cost": 2,
+            "remaining_plan_cost": 6,
+            "total_cost": 8,
+            "budget_gap": 0,
+            "estimated_finish": "2026-11-11T07:58:24.205474+00:00",
+            "time_gap_minutes": 0,
+            "feasible": true
+          },
+          "tasks": [
+            {
+              "name": "素材检索",
+              "status": "succeeded"
+            },
+            {
+              "name": "脚本生成",
+              "status": "succeeded"
+            },
+            {
+              "name": "内容制作",
+              "status": "pending",
+              "production_cost": 6,
+              "production_minutes": 40,
+              "format": "轻量短视频"
+            }
+          ]
+        },
+        "summary": "{\"plan_id\": \"plan-b9a357f8e402ddba\", \"theme\": \"新品活动，预算允许时优先精剪视频，超预算可降低制作规格\", \"script\": {\"version\": 2, \"variant\": \"lean\", \"sources\": [{\"id\": \"brand\", \"title\": \"品牌故事素材\", \"tags\": [\"新品\", \"品牌\", \"活动\"], \"summary\": \"合成品牌介绍与产品亮点，可用于活动脚本。\"}, {\"id\": \"tips\", \"title\": \"轻量内容素材\", \"tags\": [\"新品\", \"活动\", \"教程\"], \"summary\": \"合成图文要点与用户使用场景。\"}], \"text\": \"开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。\", \"storyboard\": [{\"section\": \"开场\", \"visual\": \"主题标题和产品主画面\", \"copy\": \"新品活动，预算允许时优先精剪视频，超预算可降低制作规格\"}, {\"section\": \"内容展示\", \"visual\": \"素材画面配要点字幕\", \"copy\": \"合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。\"}, {\"section\": \"行动引导\", \"visual\": \"活动说明卡片\", \"copy\": \"了解活动详情；具体权益与投放渠道待运营确认\"}]}, \"objective\": \"围绕活动主题输出一份可交接制作的内容方案，不承诺未经验证的转化效果\", \"deliverables\": [\"轻量短视频内容草案\", \"分镜与文案\", \"素材来源清单\", \"费用与时间估算\"], \"pending_confirmation\": [\"目标受众和投放渠道\", \"实际活动权益及效果指标\"], \"estimate\": {\"version\": 2, \"spent_tool_cost\": 2, \"remaining_plan_cost\": 6, \"total_cost\": 8, \"budget_gap\": 0, \"estimated_finish\": \"2026-11-11T07:58:24.205474+00:00\", \"time_gap_minutes\": 0, \"feasible\": true}, \"tasks\": [{\"name\": \"素材检索\", \"status\": \"succeeded\"}, {\"name\": \"脚本生成\", \"status\": \"succeeded\"}, {\"name\": \"内容制作\", \"status\": \"pending\", \"production_cost\": 6, \"production_minutes\": 40, \"format\": \"轻量短视频\"}]}"
+      },
+      "next_action": "end"
+    }
+  ],
+  "plan": {
+    "plan_id": "plan-b9a357f8e402ddba",
+    "theme": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格",
+    "script": {
+      "version": 2,
+      "variant": "lean",
+      "sources": [
+        {
+          "id": "brand",
+          "title": "品牌故事素材",
+          "tags": [
+            "新品",
+            "品牌",
+            "活动"
+          ],
+          "summary": "合成品牌介绍与产品亮点，可用于活动脚本。"
+        },
+        {
+          "id": "tips",
+          "title": "轻量内容素材",
+          "tags": [
+            "新品",
+            "活动",
+            "教程"
+          ],
+          "summary": "合成图文要点与用户使用场景。"
+        }
+      ],
+      "text": "开场：新品活动，预算允许时优先精剪视频，超预算可降低制作规格。展示：合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。 结尾：邀请参与活动。",
+      "storyboard": [
+        {
+          "section": "开场",
+          "visual": "主题标题和产品主画面",
+          "copy": "新品活动，预算允许时优先精剪视频，超预算可降低制作规格"
+        },
+        {
+          "section": "内容展示",
+          "visual": "素材画面配要点字幕",
+          "copy": "合成品牌介绍与产品亮点，可用于活动脚本。；合成图文要点与用户使用场景。"
+        },
+        {
+          "section": "行动引导",
+          "visual": "活动说明卡片",
+          "copy": "了解活动详情；具体权益与投放渠道待运营确认"
+        }
+      ]
+    },
+    "objective": "围绕活动主题输出一份可交接制作的内容方案，不承诺未经验证的转化效果",
+    "deliverables": [
+      "轻量短视频内容草案",
+      "分镜与文案",
+      "素材来源清单",
+      "费用与时间估算"
+    ],
+    "pending_confirmation": [
+      "目标受众和投放渠道",
+      "实际活动权益及效果指标"
+    ],
+    "estimate": {
+      "version": 2,
+      "spent_tool_cost": 2,
+      "remaining_plan_cost": 6,
+      "total_cost": 8,
+      "budget_gap": 0,
+      "estimated_finish": "2026-11-11T07:58:24.205474+00:00",
+      "time_gap_minutes": 0,
+      "feasible": true
+    },
+    "tasks": [
+      {
+        "name": "素材检索",
+        "status": "succeeded"
+      },
+      {
+        "name": "脚本生成",
+        "status": "succeeded"
+      },
+      {
+        "name": "内容制作",
+        "status": "pending",
+        "production_cost": 6,
+        "production_minutes": 40,
+        "format": "轻量短视频"
+      }
+    ]
+  },
+  "total_cost": 8,
+  "model": "deepseek-v4-pro",
+  "replayed": false,
+  "mode": "real"
+}
